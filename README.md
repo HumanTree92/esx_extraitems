@@ -31,6 +31,7 @@ Code was pulled from a few scripts out there. Will link the Original Scripts tha
 
 # Other
 If you like this please check out some of my other stuff like
+* [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
 * [esx_aircraftshop](https://github.com/HumanTree92/esx_aircraftshop)
 * [esx_boatshop](https://github.com/HumanTree92/esx_boatshop)
 * [esx_eden_aircraftgarage](https://github.com/HumanTree92/esx_eden_aircraftgarage)
