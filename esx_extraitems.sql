@@ -15,7 +15,7 @@ INSERT INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES
 	('darknet', 'Dark Net', 1, 0, 1)
 ;
 
-INSERT INTO `shops` (name, item, price) VALUES
+INSERT INTO `shops` (store, item, price) VALUES
 	('IllegalShop', 'drill', 1000),
 	('IllegalShop', 'blowpipe', 500),
 	('IllegalShop', 'darknet', 250),
