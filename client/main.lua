@@ -319,10 +319,10 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(10)
         if not IsPedInAnyVehicle(GetPlayerPed(-1), false) and GetSelectedPedWeapon(GetPlayerPed(-1)) ~= GetHashKey("WEAPON_UNARMED") then
-			if IsControlPressed(0, Keys['Z']) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'esx_extraitems') then
+			if IsControlPressed(0, Keys['Z']) and GetLastInputMethod(2) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'esx_extraitems') then
 	            OpenComponentsMenu()
 	        end
-	        if IsControlPressed(0, Keys['U']) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'esx_extraitems_skins') then
+	        if IsControlPressed(0, Keys['U']) and GetLastInputMethod(2) and not ESX.UI.Menu.IsOpen('default', GetCurrentResourceName(), 'esx_extraitems_skins') then
 	            OpenWeaponsSkinsMenu()
 	        end
 	    end
