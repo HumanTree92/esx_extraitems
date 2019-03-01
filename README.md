@@ -2,6 +2,7 @@
 Extra Items based on ESX Servers
 
 Code was pulled from a few scripts out there. Will link the Original Scripts that i have used & combined into this all in one Script. Combined all scripts into one so instead of having 4-5 Scripts that do similar things its just one Script.
+Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, & Oxygen Mask.
 
 # Requirements:
 * Shops
@@ -14,9 +15,6 @@ Code was pulled from a few scripts out there. Will link the Original Scripts tha
 4) Place `esx_extraitems` in your ESX Directory
 5) Add `start esx_extraitems` to your server.cfg
 
-# KNOWN BUGS:
-* When Unequiping Weapon Attachment you lose it for good. Working on fixing this so when you unequipe an Attachment it goes back to your inventory
-
 # Credits/Original Code:
 * [StockholmCityRP](https://github.com/StockholmCityRP)
   * [esx_extraitems](https://github.com/StockholmCityRP/esx_extraitems)
@@ -24,19 +22,20 @@ Code was pulled from a few scripts out there. Will link the Original Scripts tha
   * [esx_borrmaskin](https://github.com/Vanheden/esx_borrmaskin)
 * [Manups4e](https://github.com/manups4e)
   * [esx_weashops_with_munitions](https://github.com/manups4e/esx_weashops_with_munitions)
-* [Matspyder51](https://github.com/Matspyder51)
-  * [esx_weaponsaccessories](https://github.com/Matspyder51/esx_weaponsaccessories)
 * [ESX-PUBLIC](https://github.com/ESX-PUBLIC)
   * [eden_darknet](https://github.com/ESX-PUBLIC/eden_darknet)
 
 # Other:
 If you like this please check out some of my other stuff like
-* [esx_hospital](https://github.com/HumanTree92/esx_hospital)
-* [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
+* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
 * [esx_aircraftshop](https://github.com/HumanTree92/esx_aircraftshop)
 * [esx_boatshop](https://github.com/HumanTree92/esx_boatshop)
 * [esx_truckshop](https://github.com/HumanTree92/esx_truckshop)
-* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
+* [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
+* [esx_licenseshop](https://github.com/HumanTree92/esx_licenseshop)
+* [esx_plasticsurgery](https://github.com/HumanTree92/esx_plasticsurgery)
+* [esx_vehiclespawner](https://github.com/HumanTree92/esx_vehiclespawner)
+* [esx_hospital](https://github.com/HumanTree92/esx_hospital)
 * [esx_panicbutton](https://github.com/HumanTree92/esx_panicbutton)
 * [FiveM_CustomMapAddons](https://github.com/HumanTree92/FiveM_CustomMapAddons)
 
@@ -59,7 +58,7 @@ If you like this please check out some of my other stuff like
 ### License
 esx_extraitems - Extra Items for ESX Servers.
 
-Copyright (C) 2011-2018 Velociti Entertainment
+Copyright (C) 2011-2019 Velociti Entertainment
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
