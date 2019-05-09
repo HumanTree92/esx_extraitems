@@ -15,6 +15,11 @@ Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, & 
 4) Place `esx_extraitems` in your ESX Directory
 5) Add `start esx_extraitems` to your server.cfg
 
+# How to add Stuff to your Shops:
+1) Open the `esx_extraitems.sql` and go to the INSERT INTO `shops`.
+2) On the ones Marked `ExtraItemsShop` change them to the Shops that you want.
+3) Import the Modified `esx_extraitems.sql` to your DB.
+
 # Credits/Original Code:
 * [StockholmCityRP](https://github.com/StockholmCityRP)
   * [esx_extraitems](https://github.com/StockholmCityRP/esx_extraitems)
