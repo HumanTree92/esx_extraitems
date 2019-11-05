@@ -2,7 +2,7 @@
 Extra Items based on ESX Servers
 
 Code was pulled from a few scripts out there. Will link the Original Scripts that i have used & combined into this all in one Script. Combined all scripts into one so instead of having 4-5 Scripts that do similar things its just one Script.
-Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, & Oxygen Mask.
+Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, Oxygen Mask, Drill, Lock Pick, & Binoculars.
 
 # Requirements:
 * Shops

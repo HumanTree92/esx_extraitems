@@ -10,4 +10,7 @@ Locales ['en'] = {
 	['clip_not_suitable'] = 'These ammunitions are not suitable for this weapon',
 	-- First Aid Kit
 	['use_firstaidkit'] = 'You have used a ~g~First Aid Kit',
+	-- Lock Pick
+	['veh_unlocked'] = '~g~Vehicle Unlocked',
+	['hijack_failed'] = '~r~Hijack Failed',
 }

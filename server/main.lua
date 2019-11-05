@@ -82,3 +82,23 @@ ESX.RegisterUsableItem('clip', function(source)
 	TriggerClientEvent('esx_extraitems:clipcli', source)
 	xPlayer.removeInventoryItem('clip', 1)
 end)
+
+-- Drill
+ESX.RegisterUsableItem('drill', function(source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent('esx_extraitems:startDrill', source)
+	xPlayer.removeInventoryItem('drill', 1)
+end)
+
+-- Lock Pick
+ESX.RegisterUsableItem('lockpick', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:lockpick', _source)
+	xPlayer.removeInventoryItem('lockpick', 1)
+end)
+
+-- Binoculars
+ESX.RegisterUsableItem('binoculars', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:binoculars', source)
+end)
