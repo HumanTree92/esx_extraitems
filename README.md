@@ -5,7 +5,7 @@ Code was pulled from a few scripts out there. Will link the Original Scripts tha
 Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, Oxygen Mask, Drill, Lock Pick, & Binoculars.
 
 # Requirements:
-* Shops
+* Required:
   * [esx_shops](https://github.com/ESX-Org/esx_shops)
 
 # Download & Installation:
@@ -62,7 +62,7 @@ If you like this please check out some of my other stuff like
 ### License
 esx_extraitems - Extra Items for ESX Servers.
 
-Copyright (C) 2011-2019 Velociti Entertainment
+Copyright (C) 2011-2020 Velociti Entertainment
 
 This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
 
