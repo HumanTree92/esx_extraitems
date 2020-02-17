@@ -1,19 +1,5 @@
-local Keys = {
-    ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
-    ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
-    ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-    ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-    ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-    ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
-    ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-    ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-    ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
-
 ESX = nil
 local PlayerData = {}
---local CurrentActionData = {}
---local lastTime = 0
 
 Citizen.CreateThread(function()
 	while ESX == nil do
@@ -31,7 +17,7 @@ end)
 
 RegisterNetEvent('esx_phone:loaded')
 AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
-	
+
 	local inventory = ESX.GetPlayerData().inventory
 	local count = 0
 
@@ -63,7 +49,7 @@ AddEventHandler('esx_extraitems:oxygen_mask', function()
 	local coords     = GetEntityCoords(playerPed)
 	local boneIndex  = GetPedBoneIndex(playerPed, 12844)
 	local boneIndex2 = GetPedBoneIndex(playerPed, 24818)
-	
+
 	ESX.Game.SpawnObject('p_s_scuba_mask_s', {
 		x = coords.x,
 		y = coords.y,
@@ -77,7 +63,7 @@ AddEventHandler('esx_extraitems:oxygen_mask', function()
 			AttachEntityToEntity(object2, playerPed, boneIndex2, -0.30, -0.22, 0.0, 0.0, 90.0, 180.0, true, true, false, true, 1, true)
 			AttachEntityToEntity(object, playerPed, boneIndex, 0.0, 0.0, 0.0, 0.0, 90.0, 180.0, true, true, false, true, 1, true)
 			SetPedDiesInWater(playerPed, false)
-			
+
 			ESX.ShowNotification(_U('dive_suit_on') .. '%.')
 			Citizen.Wait(50000)
 			ESX.ShowNotification(_U('oxygen_notify', '~y~', '50') .. '%.')
@@ -85,7 +71,7 @@ AddEventHandler('esx_extraitems:oxygen_mask', function()
 			ESX.ShowNotification(_U('oxygen_notify', '~o~', '25') .. '%.')
 			Citizen.Wait(25000)
 			ESX.ShowNotification(_U('oxygen_notify', '~r~', '0') .. '%.')
-			
+
 			SetPedDiesInWater(playerPed, true)
 			DeleteObject(object)
 			DeleteObject(object2)
@@ -113,10 +99,10 @@ AddEventHandler('esx_extraitems:firstaidkit', function()
 	local playerPed = GetPlayerPed(-1)
 	local health = GetEntityHealth(playerPed)
 	local max = GetEntityMaxHealth(playerPed)
-	
+
 	if health > 0 and health < max then
 		ESX.ShowNotification(_U('use_firstaidkit'))
-		
+
 		health = health + (max / 4)
 		if health > max then
 			health = max
@@ -150,9 +136,9 @@ end)
 RegisterNetEvent('esx_extraitems:startDrill')
 AddEventHandler('esx_extraitems:startDrill', function(source)
 	local playerPed = GetPlayerPed(-1)
-	
+
 	TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_CONST_DRILL", 0, true)
-	
+
 	Citizen.CreateThread(function()
 		Citizen.Wait(10000)
 		
@@ -214,7 +200,7 @@ local speed_lr = 8.0
 local speed_ud = 8.0
 local binoculars = false
 local fov = (fov_max+fov_min)*0.5
-local storeBinoclarKey = Keys["BACKSPACE"]
+local storeBinoclarKey = 177
 
 Citizen.CreateThread(function()
 	while true do
@@ -231,22 +217,22 @@ Citizen.CreateThread(function()
 					PlayAmbientSpeech1(GetPlayerPed(-1), "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
 				end)
 			end
-			
+
 			Wait(2000)
 			
 			SetTimecycleModifier("default")
 			SetTimecycleModifierStrength(0.3)
-			
+
 			local scaleform = RequestScaleformMovie("BINOCULARS")
-			
+
 			while not HasScaleformMovieLoaded(scaleform) do
 				Citizen.Wait(10)
 			end
-			
+
 			local playerPed = GetPlayerPed(-1)
 			local vehicle = GetVehiclePedIsIn(playerPed)
 			local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
-			
+
 			AttachCamToEntity(cam, playerPed, 0.0,0.0,1.0, true)
 			SetCamRot(cam, 0.0,0.0,GetEntityHeading(playerPed))
 			SetCamFov(cam, fov)
@@ -254,7 +240,7 @@ Citizen.CreateThread(function()
 			PushScaleformMovieFunction(scaleform, "SET_CAM_LOGO")
 			PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
 			PopScaleformMovieFunctionVoid()
-			
+
 			while binoculars and not IsEntityDead(playerPed) and (GetVehiclePedIsIn(playerPed) == vehicle) and true do
 				if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
@@ -312,6 +298,7 @@ function CheckInputRotation(cam, zoomvalue)
 	local rightAxisX = GetDisabledControlNormal(0, 220)
 	local rightAxisY = GetDisabledControlNormal(0, 221)
 	local rotation = GetCamRot(cam, 2)
+
 	if rightAxisX ~= 0.0 or rightAxisY ~= 0.0 then
 		new_z = rotation.z + rightAxisX*-1.0*(speed_ud)*(zoomvalue+0.1)
 		new_x = math.max(math.min(20.0, rotation.x + rightAxisY*-1.0*(speed_lr)*(zoomvalue+0.1)), -89.5)
@@ -321,29 +308,37 @@ end
 
 function HandleZoom(cam)
 	local playerPed = GetPlayerPed(-1)
+
 	if not (IsPedSittingInAnyVehicle(playerPed)) then
 		if IsControlJustPressed(0,241) then -- Scrollup
 			fov = math.max(fov - zoomspeed, fov_min)
 		end
+
 		if IsControlJustPressed(0,242) then
 			fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
 		end
+
 		local current_fov = GetCamFov(cam)
 		if math.abs(fov-current_fov) < 0.1 then
 			fov = current_fov
 		end
+
 		SetCamFov(cam, current_fov + (fov - current_fov)*0.05)
 	else
 		if IsControlJustPressed(0,17) then -- Scrollup
 			fov = math.max(fov - zoomspeed, fov_min)
 		end
+
 		if IsControlJustPressed(0,16) then
 			fov = math.min(fov + zoomspeed, fov_max) -- ScrollDown
 		end
+
 		local current_fov = GetCamFov(cam)
+
 		if math.abs(fov-current_fov) < 0.1 then -- the difference is too small, just set the value directly to avoid unneeded updates to FOV of order 10^-5
 			fov = current_fov
 		end
+
 		SetCamFov(cam, current_fov + (fov - current_fov)*0.05) -- Smoothing of camera zoom
 	end
 end
