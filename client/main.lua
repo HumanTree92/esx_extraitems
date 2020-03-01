@@ -17,7 +17,6 @@ end)
 
 RegisterNetEvent('esx_phone:loaded')
 AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
-
 	local inventory = ESX.GetPlayerData().inventory
 	local count = 0
 
@@ -119,8 +118,9 @@ AddEventHandler('esx_extraitems:clipcli', function()
 	ped = GetPlayerPed(-1)
 	if IsPedArmed(ped, 4) then
 		hash = GetSelectedPedWeapon(ped)
+		ammo = Config.WeaponClipAmmo
 		if hash ~= nil then
-			AddAmmoToPed(GetPlayerPed(-1), hash,1000)
+			AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
 			ESX.ShowNotification(_U("clip_use"))
 		else
 			ESX.ShowNotification(_U("clip_no_weapon"))
