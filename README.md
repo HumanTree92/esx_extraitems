@@ -1,12 +1,17 @@
 # About esx_extraitems:
-Extra Items based on ESX Servers
+Extra Items for ESX
 
 Code was pulled from a few scripts out there. Will link the Original Scripts that i have used & combined into this all in one Script. Combined all scripts into one so instead of having 4-5 Scripts that do similar things its just one Script.
-Currently this has: Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, Oxygen Mask, Drill, Lock Pick, & Binoculars.
+
+# Helpfull Info:
+* Has Bullet-Proof Vest, First Aid Kits, Dark Net, Weapon Clip, Oxygen Mask, Drill, Lock Pick, & Binoculars.
 
 # Requirements:
 * Required:
+  * [es_extended](https://github.com/ESX-Org/es_extended)
   * [esx_shops](https://github.com/ESX-Org/esx_shops)
+* Optional:
+  * NONE
 
 # Download & Installation:
 1) Download the .zip.
@@ -35,6 +40,8 @@ If you like this please check out some of my other stuff like
 * [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
 * [esx_advancedvehicleshop](https://github.com/HumanTree92/esx_advancedvehicleshop)
 * [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)
+* [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
+* [esx_advancedfuel](https://github.com/HumanTree92/esx_advancedfuel)
 * [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
 * [esx_licenseshop](https://github.com/HumanTree92/esx_licenseshop)
 * [esx_vehiclespawner](https://github.com/HumanTree92/esx_vehiclespawner)
@@ -65,7 +72,7 @@ Scripts that will no longer be Maintained.
 
 # Legal
 ### License
-esx_extraitems - Extra Items for ESX Servers.
+esx_extraitems - Extra Items for ESX
 
 Copyright (C) 2011-2020 Velociti Entertainment
 
