@@ -1,4 +1,4 @@
-INSERT INTO `items` (`name`, `label`, `limit`, `rare`, `can_remove`) VALUES
+INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 	('lockpick', 'Lock Pick', -1, 0, 1),
 	('darknet', 'Dark Net', 1, 0, 1),
 	('drill', 'Drill', 1, 0, 1),
