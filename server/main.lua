@@ -7,9 +7,9 @@ TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 TriggerEvent('esx_phone:registerNumber', 'darknet', _U('phone_darknet'), true, false, true, true)
 
 function OnDarkNetItemChange(source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
-	local found    = false
-	local darknet  = xPlayer.getInventoryItem('darknet')
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local found = false
+	local darknet = xPlayer.getInventoryItem('darknet')
 
 	if darknet.count > 0 then
 		found = true
@@ -51,50 +51,72 @@ end)
 
 -- End of Dark Net
 
--- Oxygen Mask
-ESX.RegisterUsableItem('oxygen_mask', function(source)
-	TriggerClientEvent('esx_extraitems:oxygen_mask', source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
-	xPlayer.removeInventoryItem('oxygen_mask', 1)
+-- Binoculars
+ESX.RegisterUsableItem('binoculars', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_extraitems:binoculars', source)
 end)
 
 -- Bullet-Proof Vest
 ESX.RegisterUsableItem('bulletproof', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
+
 	TriggerClientEvent('esx_extraitems:bulletproof', source)
 	xPlayer.removeInventoryItem('bulletproof', 1)
-end)
-
--- First Aid Kit
-ESX.RegisterUsableItem('firstaidkit', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:firstaidkit', source)
-	xPlayer.removeInventoryItem('firstaidkit', 1)
-end)
-
--- Weapon Clip
-ESX.RegisterUsableItem('clip', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:clipcli', source)
-	xPlayer.removeInventoryItem('clip', 1)
 end)
 
 -- Drill
 ESX.RegisterUsableItem('drill', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
-    TriggerClientEvent('esx_extraitems:startDrill', source)
+
+    TriggerClientEvent('esx_extraitems:drill', source)
 	xPlayer.removeInventoryItem('drill', 1)
+end)
+
+-- First Aid Kit
+ESX.RegisterUsableItem('firstaidkit', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_extraitems:firstaidkit', source)
+	xPlayer.removeInventoryItem('firstaidkit', 1)
 end)
 
 -- Lock Pick
 ESX.RegisterUsableItem('lockpick', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
+
 	TriggerClientEvent('esx_extraitems:lockpick', _source)
 	xPlayer.removeInventoryItem('lockpick', 1)
 end)
 
--- Binoculars
-ESX.RegisterUsableItem('binoculars', function(source)
+-- Oxygen Mask
+ESX.RegisterUsableItem('oxygenmask', function(source)
+	local xPlayer  = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_extraitems:oxygenmask', source)
+	xPlayer.removeInventoryItem('oxygenmask', 1)
+end)
+
+-- Weapon Box
+ESX.RegisterUsableItem('weabox', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:binoculars', source)
+
+	TriggerClientEvent('esx_extraitems:weabox', source)
+	xPlayer.removeInventoryItem('weabox', 1)
+end)
+
+-- Weapon Clip
+ESX.RegisterUsableItem('weaclip', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_extraitems:weaclip', source)
+	xPlayer.removeInventoryItem('weaclip', 1)
+end)
+
+-- Vehicle GPS
+ESX.RegisterUsableItem('vehgps', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	TriggerClientEvent('esx_extraitems:installGPS', source)
 end)
