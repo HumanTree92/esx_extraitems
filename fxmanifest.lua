@@ -4,6 +4,8 @@ game 'gta5'
 
 description 'ESX Extra Items'
 
+Author 'Human Tree92 | Velociti Entertainment'
+
 version '1.0.0'
 
 client_scripts {

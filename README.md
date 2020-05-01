@@ -1,9 +1,8 @@
 # About esx_extraitems:
-Extra Items for ESX
-
-Code was pulled from a few scripts out there. Will link the Original Scripts that i have used & combined into this all in one Script. Combined all scripts into one so instead of having 4-5 Scripts that do similar things its just one Script.
+Extra Items for ESX - Edited/Made by Human Tree92 ([Velociti Entertainment Customs & Wiki](http://www.velocitientertainment.com/customs/))
 
 # Helpfull Info:
+* Code was pulled from various Scripts out there. Credits have been Given.
 * Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Weapon Box/Clip, & Vehicle GPS.
 
 # Requirements:
@@ -37,12 +36,16 @@ Code was pulled from a few scripts out there. Will link the Original Scripts tha
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
-* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
-* [esx_advancedvehicleshop](https://github.com/HumanTree92/esx_advancedvehicleshop)
-* [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)
-* [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
+* [esx_advancedbanking](https://github.com/HumanTree92/esx_advancedbanking)
 * [esx_advancedfuel](https://github.com/HumanTree92/esx_advancedfuel)
+* [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
+* [esx_advancedholdup](https://github.com/HumanTree92/esx_advancedholdup)
+* [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)
+* [esx_advancedjail](https://github.com/HumanTree92/esx_advancedjail)
+* [esx_advancedvehicleshop](https://github.com/HumanTree92/esx_advancedvehicleshop)
+* [esx_advancedweaponshop](https://github.com/HumanTree92/esx_advancedweaponshop)
 * [esx_extraitems](https://github.com/HumanTree92/esx_extraitems)
+* [esx_joblisting](https://github.com/HumanTree92/esx_joblisting)
 * [esx_licenseshop](https://github.com/HumanTree92/esx_licenseshop)
 * [esx_vehiclespawner](https://github.com/HumanTree92/esx_vehiclespawner)
 * [FiveM_CustomMapAddons](https://github.com/HumanTree92/FiveM_CustomMapAddons)
