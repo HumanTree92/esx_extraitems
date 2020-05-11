@@ -1,3 +1,5 @@
+USE `es_extended`;
+
 INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 	('darknet', 'Dark Net', 1, 0, 1),
 	('binoculars', 'Binoculars', 1, 0, 1),
@@ -21,5 +23,5 @@ INSERT INTO `shops` (store, item, price) VALUES
 	('ExtraItemsShop', 'oxygenmask', 400),
 	('ExtraItemsShop', 'weabox', 60),
 	('ExtraItemsShop', 'weaclip', 25),
-	('ExtraItemsShop', 'vehgps', 25),
+	('ExtraItemsShop', 'vehgps', 25)
 ;
