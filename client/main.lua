@@ -51,11 +51,10 @@ local speed_lr = 8.0
 local speed_ud = 8.0
 local binoculars = false
 local fov = (fov_max+fov_min)*0.5
-local storeBinoclarKey = 177
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(5)
+		Citizen.Wait(10)
 		local playerPed = GetPlayerPed(-1)
 		local vehicle = GetVehiclePedIsIn(playerPed)
 
@@ -92,7 +91,7 @@ Citizen.CreateThread(function()
 			PopScaleformMovieFunctionVoid()
 
 			while binoculars and not IsEntityDead(playerPed) and (GetVehiclePedIsIn(playerPed) == vehicle) and true do
-				if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
+				if IsControlJustPressed(0, Config.BinocularsPutAway) then -- Toggle binoculars
 					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
 					ClearPedTasks(GetPlayerPed(-1))
 					binoculars = false
@@ -210,12 +209,19 @@ RegisterNetEvent('esx_extraitems:drill')
 AddEventHandler('esx_extraitems:drill', function(source)
 	local playerPed = GetPlayerPed(-1)
 
-	TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_CONST_DRILL", 0, true)
-
-	Citizen.CreateThread(function()
-		Citizen.Wait(10000)
-		ClearPedTasksImmediately(playerPed)
-	end)
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if IsPedOnFoot(playerPed) then
+			TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_CONST_DRILL", 0, true)
+			Citizen.CreateThread(function()
+				Citizen.Wait(Config.Wait.Drill)
+				ClearPedTasksImmediately(playerPed)
+			end)
+		else
+			ESX.ShowNotification(_U('error_no_foot'))
+		end
+	end
 end)
 -- End of Drill
 
@@ -227,7 +233,8 @@ AddEventHandler('esx_extraitems:firstaidkit', function()
 	local max = GetEntityMaxHealth(playerPed)
 
 	if health > 0 and health < max then
-		ESX.ShowNotification(_U('use_firstaidkit'))
+		TriggerServerEvent('esx_extraitems:removefirstaidkit')
+		ESX.ShowNotification(_U('used_firstaidkit'))
 
 		health = health + (max / 4)
 
@@ -267,7 +274,7 @@ AddEventHandler('esx_extraitems:lockpick', function()
 			TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_WELDING', 0, true)
 
 			Citizen.CreateThread(function()
-				Citizen.Wait(10000)
+				Citizen.Wait(Config.Wait.LockPick)
 
 				if chance <= 66 then
 					SetVehicleDoorsLocked(vehicle, 1)
@@ -326,6 +333,94 @@ AddEventHandler('esx_extraitems:oxygenmask', function()
 end)
 -- End of Oxygen Mask
 
+-- Start of Repair Kit
+RegisterNetEvent('esx_extraitems:repairkit')
+AddEventHandler('esx_extraitems:repairkit', function()
+	local playerPed = GetPlayerPed(-1)
+	local coords = GetEntityCoords(playerPed)
+	local vehicle = ESX.Game.GetVehicleInDirection()
+	
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if DoesEntityExist(vehicle) and IsPedOnFoot(playerPed) then
+			TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_BUM_BIN", 0, true)
+			Citizen.CreateThread(function()
+				Citizen.Wait(Config.Wait.RepairKit)
+				SetVehicleFixed(vehicle)
+				SetVehicleDeformationFixed(vehicle)
+				SetVehicleUndriveable(vehicle, false)
+				ClearPedTasksImmediately(playerPed)
+				TriggerServerEvent('esx_extraitems:removerepairkit')
+				ESX.ShowNotification(_U('used_repairkit'))
+				ESX.ShowNotification(_U('repair_done'))
+			end)
+		else
+			ESX.ShowNotification(_U('error_no_veh'))
+		end
+	end
+end)
+-- End of Repair Kit
+
+-- Start of Tire Kit
+RegisterNetEvent('esx_extraitems:tirekit')
+AddEventHandler('esx_extraitems:tirekit', function()
+	local playerPed = GetPlayerPed(-1)
+	local coords = GetEntityCoords(playerPed)
+	local vehicle = GetClosestVehicle(coords.x, coords.y, coords.z, 5.0, 0, 71)
+	local closestTire = GetClosestVehicleTire(vehicle)
+
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
+			if DoesEntityExist(vehicle) and IsPedOnFoot(playerPed) and closestTire ~= nil then
+				TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_KNEEL", 0, true)
+				Citizen.CreateThread(function()
+					Citizen.Wait(Config.Wait.TireKit)
+					SetVehicleTyreFixed(vehicle, closestTire.tireIndex)
+					SetVehicleWheelHealth(vehicle, closestTire.tireIndex, 100)
+					ClearPedTasksImmediately(playerPed)
+					TriggerServerEvent('esx_extraitems:removetirekit')
+					ESX.ShowNotification(_U('used_tirekit'))
+					ESX.ShowNotification(_U('tire_done'))
+				end)
+			else
+				ESX.ShowNotification(_U('error_no_tire'))
+			end
+		else
+			ESX.ShowNotification(_U('error_no_veh'))
+		end
+	end
+end)
+
+function GetClosestVehicleTire(vehicle)
+	local tireBones = {"wheel_lf", "wheel_rf", "wheel_lm1", "wheel_rm1", "wheel_lm2", "wheel_rm2", "wheel_lm3", "wheel_rm3", "wheel_lr", "wheel_rr"}
+	local tireIndex = {["wheel_lf"] = 0, ["wheel_rf"] = 1, ["wheel_lm1"] = 2, ["wheel_rm1"] = 3, ["wheel_lm2"] = 45,["wheel_rm2"] = 47, ["wheel_lm3"] = 46, ["wheel_rm3"] = 48, ["wheel_lr"] = 4, ["wheel_rr"] = 5,}
+	local playerPed = GetPlayerPed(-1)
+	local playerPos = GetEntityCoords(playerPed, false)
+	local minDistance = 1.0
+	local closestTire = nil
+
+	for a=1, #tireBones do
+		local bonePos = GetWorldPositionOfEntityBone(vehicle, GetEntityBoneIndexByName(vehicle, tireBones[a]))
+		local distance = Vdist(playerPos.x, playerPos.y, playerPos.z, bonePos.x, bonePos.y, bonePos.z)
+
+		if closestTire == nil then
+			if distance <= minDistance then
+				closestTire = {bone = tireBones[a], boneDist = distance, bonePos = bonePos, tireIndex = tireIndex[tireBones[a]]}
+			end
+		else
+			if distance < closestTire.boneDist then
+				closestTire = {bone = tireBones[a], boneDist = distance, bonePos = bonePos, tireIndex = tireIndex[tireBones[a]]}
+			end
+		end
+	end
+
+	return closestTire
+end
+-- End of Tire Kit
+
 -- Start of Weapon Box
 RegisterNetEvent('esx_extraitems:weabox')
 AddEventHandler('esx_extraitems:weabox', function()
@@ -336,12 +431,13 @@ AddEventHandler('esx_extraitems:weabox', function()
 		ammo = Config.WeaponBoxAmmo
 		if hash ~= nil then
 			AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
-			ESX.ShowNotification(_U("clip_use"))
+			TriggerServerEvent('esx_extraitems:removeweabox')
+			ESX.ShowNotification(_U('used_weabox'))
 		else
-			ESX.ShowNotification(_U("clip_no_weapon"))
+			ESX.ShowNotification(_U('no_weapon'))
 		end
 	else
-		ESX.ShowNotification(_U("clip_not_suitable"))
+		ESX.ShowNotification(_U('not_suitable'))
 	end
 end)
 -- End of Weapon Box
@@ -356,12 +452,13 @@ AddEventHandler('esx_extraitems:weaclip', function()
 		ammo = Config.WeaponClipAmmo
 		if hash ~= nil then
 			AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
-			ESX.ShowNotification(_U("clip_use"))
+			TriggerServerEvent('esx_extraitems:removeweaclip')
+			ESX.ShowNotification(_U('used_weaclip'))
 		else
-			ESX.ShowNotification(_U("clip_no_weapon"))
+			ESX.ShowNotification(_U('no_weapon'))
 		end
 	else
-		ESX.ShowNotification(_U("clip_not_suitable"))
+		ESX.ShowNotification(_U('not_suitable'))
 	end
 end)
 -- End of Weapon Clip
@@ -382,21 +479,21 @@ AddEventHandler('esx_extraitems:installGPS', function()
 
 					if IsThisModelABoat(model) or IsThisModelACar(model) or IsThisModelAHeli(model) or IsThisModelAPlane(model) or IsThisModelAnAmphibiousCar(model) then
 						ShowRadar = true
-						ESX.ShowNotification(_U("gps_installed"))
+						ESX.ShowNotification(_U('gps_installed'))
 					else
-						ESX.ShowNotification(_U("gps_not_correct"))
+						ESX.ShowNotification(_U('gps_not_correct'))
 					end
 				else
 					ShowRadar = true
-					ESX.ShowNotification(_U("gps_installed"))
+					ESX.ShowNotification(_U('gps_installed'))
 				end
 			else
-				ESX.ShowNotification(_U("gps_no_vehicle"))
+				ESX.ShowNotification(_U('gps_no_vehicle'))
 			end
 		else
 			DisplayRadar(false)
 			ShowRadar = false
-			ESX.ShowNotification(_U("gps_removed"))
+			ESX.ShowNotification(_U('gps_removed'))
 		end
 	end
 end)

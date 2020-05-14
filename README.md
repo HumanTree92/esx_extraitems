@@ -3,7 +3,7 @@ Extra Items for ESX - Edited/Made by Human Tree92 ([Velociti Entertainment Custo
 
 # Helpfull Info:
 * Code was pulled from various Scripts out there. Credits have been Given.
-* Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Weapon Box/Clip, & Vehicle GPS.
+* Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Weapon Box/Clip, & Vehicle GPS.
 
 # Requirements:
 * Required:
@@ -33,6 +33,8 @@ Extra Items for ESX - Edited/Made by Human Tree92 ([Velociti Entertainment Custo
   * [esx_weashops_with_munitions](https://github.com/manups4e/esx_weashops_with_munitions)
 * [ESX-PUBLIC](https://github.com/ESX-PUBLIC)
   * [eden_darknet](https://github.com/ESX-PUBLIC/eden_darknet)
+* [Clementinise](https://github.com/clementinise)
+  * [esx_repairkit](https://github.com/clementinise/esx_repairkit)
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
