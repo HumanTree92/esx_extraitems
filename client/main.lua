@@ -55,7 +55,7 @@ local fov = (fov_max+fov_min)*0.5
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(10)
-		local playerPed = GetPlayerPed(-1)
+		local playerPed = PlayerPedId()
 		local vehicle = GetVehiclePedIsIn(playerPed)
 
 		if binoculars then
@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
 				HideHUDThisFrame()
 
 				DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
-				Citizen.Wait(10)
+				Citizen.Wait(5)
 			end
 
 			binoculars = false
