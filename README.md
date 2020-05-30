@@ -1,13 +1,15 @@
 # About esx_extraitems:
 Extra Items for ESX - Edited/Made by Human Tree92 ([Velociti Entertainment Customs & Wiki](http://www.velocitientertainment.com/customs/))
 
+I can not Guarantee that this will work with the Latest es_extended V2.
+
 # Helpfull Info:
 * Code was pulled from various Scripts out there. Credits have been Given.
 * Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Weapon Box/Clip, & Vehicle GPS.
 
 # Requirements:
 * Required:
-  * [es_extended](https://github.com/ESX-Org/es_extended)
+  * [es_extended V1 Final](https://github.com/ESX-Org/es_extended) or [extendedmode](https://github.com/extendedmode/extendedmode)
   * [esx_shops](https://github.com/ESX-Org/esx_shops)
 * Optional:
   * NONE
