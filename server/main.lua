@@ -146,9 +146,18 @@ ESX.RegisterUsableItem('weabox', function(source)
 end)
 
 RegisterNetEvent('esx_extraitems:removeweabox')
-AddEventHandler('esx_extraitems:removeweabox', function()
+AddEventHandler('esx_extraitems:removeweabox', function(hash, ammo)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	--comparing the hash we got earlier to almost all the weapons hash (thanks CDK from cfx forum for posting all the hashes)
+	for key,value in pairs(Config.weapons) do
+		--esx requires the spawn name of the weapon, so if the hash matches we get the name 
+		if(value.hash == hash) then
+			xPlayer.addWeaponAmmo(value.weapon, ammo)
+		end
+	end
+
 	if Config.Removeables.WeaponBox then
 		xPlayer.removeInventoryItem('weabox', 1)
 	end
@@ -161,9 +170,16 @@ ESX.RegisterUsableItem('weaclip', function(source)
 end)
 
 RegisterNetEvent('esx_extraitems:removeweaclip')
-AddEventHandler('esx_extraitems:removeweaclip', function()
+AddEventHandler('esx_extraitems:removeweaclip', function(hash, ammo)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
+
+	for key,value in pairs(Config.weapons) do
+		if(value.hash == hash) then
+			xPlayer.addWeaponAmmo(value.weapon, ammo)
+		end
+	end
+
 	if Config.Removeables.WeaponClip then
 		xPlayer.removeInventoryItem('weaclip', 1)
 	end

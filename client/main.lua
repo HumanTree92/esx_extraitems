@@ -430,8 +430,9 @@ AddEventHandler('esx_extraitems:weabox', function()
 		hash = GetSelectedPedWeapon(playerPed)
 		ammo = Config.WeaponBoxAmmo
 		if hash ~= nil then
-			AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
-			TriggerServerEvent('esx_extraitems:removeweabox')
+			--AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
+			--Passing the hash to the server event, so we can use the addWeaponAmmo function from esx
+			TriggerServerEvent('esx_extraitems:removeweabox', hash, ammo)
 			ESX.ShowNotification(_U('used_weabox'))
 		else
 			ESX.ShowNotification(_U('no_weapon'))
@@ -451,8 +452,9 @@ AddEventHandler('esx_extraitems:weaclip', function()
 		hash = GetSelectedPedWeapon(playerPed)
 		ammo = Config.WeaponClipAmmo
 		if hash ~= nil then
-			AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
-			TriggerServerEvent('esx_extraitems:removeweaclip')
+			--AddAmmoToPed(GetPlayerPed(-1), hash, ammo)
+			
+			TriggerServerEvent('esx_extraitems:removeweaclip', hash, ammo)
 			ESX.ShowNotification(_U('used_weaclip'))
 		else
 			ESX.ShowNotification(_U('no_weapon'))
