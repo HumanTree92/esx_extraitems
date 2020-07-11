@@ -149,12 +149,9 @@ RegisterNetEvent('esx_extraitems:removeweabox')
 AddEventHandler('esx_extraitems:removeweabox', function(hash, ammo)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
-
-	for k,v in pairs(Config.Weapons) do
-		if(v.hash == hash) then
-			xPlayer.addWeaponAmmo(v.weapon, ammo)
-		end
-	end
+	local weaponName = ESX.GetWeaponFromHash(hash)
+	
+	xPlayer.addWeaponAmmo(weaponName, ammo)
 
 	if Config.Removeables.WeaponBox then
 		xPlayer.removeInventoryItem('weabox', 1)
@@ -171,12 +168,9 @@ RegisterNetEvent('esx_extraitems:removeweaclip')
 AddEventHandler('esx_extraitems:removeweaclip', function(hash, ammo)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(_source)
-
-	for k,v in pairs(Config.Weapons) do
-		if(v.hash == hash) then
-			xPlayer.addWeaponAmmo(v.weapon, ammo)
-		end
-	end
+	local weaponName = ESX.GetWeaponFromHash(hash)
+	
+	xPlayer.addWeaponAmmo(weaponName, ammo)
 
 	if Config.Removeables.WeaponClip then
 		xPlayer.removeInventoryItem('weaclip', 1)
