@@ -151,7 +151,7 @@ AddEventHandler('esx_extraitems:removeweabox', function(hash, ammo)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local weaponName = ESX.GetWeaponFromHash(hash)
 	
-	xPlayer.addWeaponAmmo(weaponName, ammo)
+	xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
 	if Config.Removeables.WeaponBox then
 		xPlayer.removeInventoryItem('weabox', 1)
@@ -170,7 +170,7 @@ AddEventHandler('esx_extraitems:removeweaclip', function(hash, ammo)
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	local weaponName = ESX.GetWeaponFromHash(hash)
 	
-	xPlayer.addWeaponAmmo(weaponName, ammo)
+	xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
 	if Config.Removeables.WeaponClip then
 		xPlayer.removeInventoryItem('weaclip', 1)
