@@ -104,7 +104,7 @@ Citizen.CreateThread(function()
 				HideHUDThisFrame()
 
 				DrawScaleformMovieFullscreen(scaleform, 255, 255, 255, 255)
-				Citizen.Wait(10)
+				Citizen.Wait(5)
 			end
 
 			binoculars = false
