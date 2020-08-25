@@ -7,8 +7,15 @@ Locales ['en'] = {
 	['used_oxygenmask'] = 'you have used ~y~1x~s~ ~b~Oxygen Mask~s~',
 	['used_repairkit'] = 'you have used ~y~1x~s~ ~b~Repair Kit~s~',
 	['used_tirekit'] = 'you have used ~y~1x~s~ ~b~Tire Kit~s~',
-	['used_weabox'] = 'you have used ~y~1x~s~ ~b~Weapon Box~s~',
-	['used_weaclip'] = 'you have used ~y~1x~s~ ~b~Weapon Clip~s~',
+	['used_boxpistol'] = 'you have used ~y~1x~s~ ~b~Ammo Box Pistol~s~',
+	['used_boxsmg'] = 'you have used ~y~1x~s~ ~b~Ammo Box SMG~s~',
+	['used_boxshot'] = 'you have used ~y~1x~s~ ~b~Ammo Box Shotgun~s~',
+	['used_boxrifle'] = 'you have used ~y~1x~s~ ~b~Ammo Box Rifle~s~',
+	['used_boxmg'] = 'you have used ~y~1x~s~ ~b~Ammo Box MG~s~',
+	['used_boxsniper'] = 'you have used ~y~1x~s~ ~b~Ammo Box Sniper~s~',
+	['used_boxflare'] = 'you have used ~y~1x~s~ ~b~Ammo Box Flare~s~',
+	['used_boxbig'] = 'you have used ~y~1x~s~ ~b~Ammo Box Big~s~',
+	['used_boxsmall'] = 'you have used ~y~1x~s~ ~b~Ammo Box Small~s~',
 	-- Dark Net
 	['phone_darknet'] = 'Dark Net',
 	-- Oxygen Mask
@@ -18,7 +25,7 @@ Locales ['en'] = {
 	['repair_done'] = '~g~You have Repaired the Vehicle.',
 	-- Tire Kit
 	['tire_done'] = '~g~You have changed the tire of the Vehicle.',
-	-- Weapon Box/Clip
+	-- Ammo Boxes
 	['no_weapon'] = 'You do not have a weapon in your hand.',
 	['not_suitable'] = 'These ammunitions are not suitable for this weapon.',
 	-- Lock Pick

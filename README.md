@@ -8,7 +8,10 @@ Extra Items for ESX V1 Final or EXM - Edited/Made by Human Tree92 ([Velociti Ent
 
 # Helpfull Info:
 * Code was pulled from various Scripts out there. Credits have been Given.
-* Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Weapon Box/Clip, & Vehicle GPS.
+* Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Ammo Boxes, & Vehicle GPS.
+* Now using 2 Different Types of Ammo Boxes.
+  * Advanced Ammo Boxes require players to purchase specific Ammo Boxes for their Guns. So if you need Pistol Ammo you must buy a Ammo Box Pistol.
+  * Simple Ammo Boxes doesn't require players to purchase specific Ammo Boxes for their Guns. However there are 2 different sizes.
 
 # Requirements:
 * Required:
@@ -20,14 +23,16 @@ Extra Items for ESX V1 Final or EXM - Edited/Made by Human Tree92 ([Velociti Ent
 # Download & Installation:
 1) Download the .zip.
 2) Extract the .zip or Open the .zip.
-3) Import `esx_extraitems.sql` in your database
+3) Pick which SQL you want to use
+  3.1) If you want to use Advanced Ammo Boxes Import `esx_extraitems_advammo.sql` in your database
+  3.2) If you want to use Simple Ammo Boxes Import `esx_extraitems_simammo.sql` in your database
 4) Place `esx_extraitems` in your ESX Directory
 5) Add `start esx_extraitems` to your server.cfg
 
 # How to add Stuff to your Shops:
-1) Open the `esx_extraitems.sql` and go to the INSERT INTO `shops`.
+1) Depending on which Ammo Boxes you picked edit that SQL and go to the INSERT INTO `shops`
 2) On the ones Marked `ExtraItemsShop` change them to the Shops that you want.
-3) Import the Modified `esx_extraitems.sql` to your DB.
+3) Import the Modified SQL to your DB.
 
 # Credits/Original Code:
 * [StockholmCityRP](https://github.com/StockholmCityRP)

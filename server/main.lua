@@ -139,44 +139,185 @@ AddEventHandler('esx_extraitems:removetirekit', function()
 	end
 end)
 
--- Weapon Box
-ESX.RegisterUsableItem('weabox', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:weabox', source)
-end)
-
-RegisterNetEvent('esx_extraitems:removeweabox')
-AddEventHandler('esx_extraitems:removeweabox', function(hash, ammo)
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	local weaponName = ESX.GetWeaponFromHash(hash)
-	xPlayer.addWeaponAmmo(weaponName.name, ammo)
-
-	if Config.Removeables.WeaponClip then
-		xPlayer.removeInventoryItem('weabox', 1)
-	end
-end)
-
--- Weapon Clip
-ESX.RegisterUsableItem('weaclip', function(source)
-	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:weaclip', source)
-end)
-
-RegisterNetEvent('esx_extraitems:removeweaclip')
-AddEventHandler('esx_extraitems:removeweaclip', function(hash, ammo)
-	local _source = source
-	local xPlayer = ESX.GetPlayerFromId(_source)
-	local weaponName = ESX.GetWeaponFromHash(hash)
-	xPlayer.addWeaponAmmo(weaponName.name, ammo)
-
-	if Config.Removeables.WeaponClip then
-		xPlayer.removeInventoryItem('weaclip', 1)
-	end
-end)
-
 -- Vehicle GPS
 ESX.RegisterUsableItem('vehgps', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:installGPS', source)
 end)
+
+-- Start of Ammo Boxes
+ESX.RegisterUsableItem('boxpistol', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxpistol')
+end)
+
+ESX.RegisterUsableItem('boxsmg', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxsmg')
+end)
+
+ESX.RegisterUsableItem('boxshot', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxshot')
+end)
+
+ESX.RegisterUsableItem('boxrifle', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxrifle')
+end)
+
+ESX.RegisterUsableItem('boxmg', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxmg')
+end)
+
+ESX.RegisterUsableItem('boxsniper', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxsniper')
+end)
+
+ESX.RegisterUsableItem('boxflare', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxflare')
+end)
+
+ESX.RegisterUsableItem('boxbig', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxbig')
+end)
+
+ESX.RegisterUsableItem('boxsmall', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:checkammo', source, 'boxsmall')
+end)
+
+RegisterNetEvent('esx_extraitems:removebox')
+AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if type == 'boxpistol' then
+		for k,v in pairs(Config.Weapons.Pistols) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxpistol', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxpistol'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxsmg' then
+		for k,v in pairs(Config.Weapons.SMGs) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxsmg', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxsmg'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxshot' then
+		for k,v in pairs(Config.Weapons.Shotguns) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxshot', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxshot'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxrifle' then
+		for k,v in pairs(Config.Weapons.Rifles) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxrifle', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxrifle'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxmg' then
+		for k,v in pairs(Config.Weapons.MGs) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxmg', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxmg'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxsniper' then
+		for k,v in pairs(Config.Weapons.Snipers) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxsniper', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxsniper'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxflare' then
+		for k,v in pairs(Config.Weapons.Flares) do
+			if (v.weaponHash == hash) then
+				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+
+				if Config.Removeables.AmmoBoxes then
+					xPlayer.removeInventoryItem('boxflare', 1)
+				end
+
+				xPlayer.showNotification(_U('used_boxflare'))
+				break
+			else
+				xPlayer.showNotification(_U('not_suitable'))
+			end
+		end
+	elseif type == 'boxbig' then
+		local weaponName = ESX.GetWeaponFromHash(hash)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
+
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxbig', 1)
+		end
+
+		xPlayer.showNotification(_U('used_boxbig'))
+	elseif type == 'boxsmall' then
+		local weaponName = ESX.GetWeaponFromHash(hash)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
+
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxsmall', 1)
+		end
+
+		xPlayer.showNotification(_U('used_boxsmall'))
+	end
+end)
+-- End of Ammo Boxes

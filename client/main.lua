@@ -421,46 +421,6 @@ function GetClosestVehicleTire(vehicle)
 end
 -- End of Tire Kit
 
--- Start of Weapon Box
-RegisterNetEvent('esx_extraitems:weabox')
-AddEventHandler('esx_extraitems:weabox', function()
-	local playerPed = GetPlayerPed(-1)
-
-	if IsPedArmed(playerPed, 4) then
-		hash = GetSelectedPedWeapon(playerPed)
-		ammo = Config.WeaponBoxAmmo
-		if hash ~= nil then
-			TriggerServerEvent('esx_extraitems:removeweabox', hash, ammo)
-			ESX.ShowNotification(_U('used_weabox'))
-		else
-			ESX.ShowNotification(_U('no_weapon'))
-		end
-	else
-		ESX.ShowNotification(_U('not_suitable'))
-	end
-end)
--- End of Weapon Box
-
--- Start of Weapon Clip
-RegisterNetEvent('esx_extraitems:weaclip')
-AddEventHandler('esx_extraitems:weaclip', function()
-	local playerPed = GetPlayerPed(-1)
-
-	if IsPedArmed(playerPed, 4) then
-		hash = GetSelectedPedWeapon(playerPed)
-		ammo = Config.WeaponClipAmmo
-		if hash ~= nil then
-			TriggerServerEvent('esx_extraitems:removeweaclip', hash, ammo)
-			ESX.ShowNotification(_U('used_weaclip'))
-		else
-			ESX.ShowNotification(_U('no_weapon'))
-		end
-	else
-		ESX.ShowNotification(_U('not_suitable'))
-	end
-end)
--- End of Weapon Clip
-
 -- Start of Vehicle GPS
 local ShowRadar = false
 
@@ -533,3 +493,88 @@ Citizen.CreateThread(function()
 	end
 end)
 -- End of Vehicle GPS
+
+-- Start of Ammo Boxes
+RegisterNetEvent('esx_extraitems:checkammo')
+AddEventHandler('esx_extraitems:checkammo', function(type)
+	local playerPed = GetPlayerPed(-1)
+
+	if IsPedArmed(playerPed, 4) then
+		if type == 'boxpistol' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.Pistol
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxpistol')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxsmg' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.SMG
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsmg')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxshot' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.Shotgun
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxshot')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxrifle' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.Rifle
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxrifle')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxmg' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.MG
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxmg')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxsniper' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.Sniper
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsniper')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxflare' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.Flare
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxflare')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxbig' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.BoxBig
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxbig')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		elseif type == 'boxsmall' then
+			hash = GetSelectedPedWeapon(playerPed)
+			ammo = Config.AmmoBoxes.BoxSmall
+			if hash ~= nil then
+				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsmall')
+			else
+				ESX.ShowNotification(_U('not_suitable'))
+			end
+		end
+	else
+		ESX.ShowNotification(_U('no_weapon'))
+	end
+end)
+-- End of Ammo Boxes
