@@ -48,6 +48,29 @@ AddEventHandler('esx:onRemoveInventoryItem', function(source, item, count)
 end)
 -- End of Dark Net
 
+-- Bandage
+ESX.RegisterUsableItem('bandage', function(source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent('esx_extraitems:bandage', source)
+	if Config.Removeables.Bandage then
+		xPlayer.removeInventoryItem('bandage', 1)
+		xPlayer.showNotification(_U('used_bandage'))
+	end
+end)
+
+RegisterServerEvent('esx_extraitems:givebandages')
+AddEventHandler('esx_extraitems:givebandages', function()
+	local xPlayer  = ESX.GetPlayerFromId(source)
+	local itemName, amount = 'bandage', 3
+	if xPlayer.canCarryItem(itemName, amount)
+		xPlayer.removeInventoryItem('firstaidkit', 1)
+		xPlayer.showNotification(_U('used_firstaidkit'))
+		xPlayer.addInventoryItem(itemName, amount)
+	else
+		xPlayer.showNotification(_U('player_cannot_hold', 'Bandages'))
+	end
+end)
+
 -- Binoculars
 ESX.RegisterUsableItem('binoculars', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -60,18 +83,50 @@ ESX.RegisterUsableItem('bulletproof', function(source)
 	TriggerClientEvent('esx_extraitems:bulletproof', source)
 	if Config.Removeables.BulletProofVest then
 		xPlayer.removeInventoryItem('bulletproof', 1)
+		xPlayer.showNotification(_U('used_bulletproof'))
 	end
-	xPlayer.showNotification(_U('used_bulletproof'))
+end)
+
+-- Defib
+ESX.RegisterUsableItem('defib', function(source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    TriggerClientEvent('esx_extraitems:defib', source)
+end)
+
+RegisterNetEvent('esx_extraitems:removedefib')
+AddEventHandler('esx_extraitems:removedefib', function()
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	if Config.Removeables.Defib then
+		xPlayer.removeInventoryItem('defib', 1)
+		xPlayer.showNotification(_U('used_defib'))
+	end
 end)
 
 -- Drill
 ESX.RegisterUsableItem('drill', function(source)
     local xPlayer = ESX.GetPlayerFromId(source)
     TriggerClientEvent('esx_extraitems:drill', source)
+end)
+
+RegisterNetEvent('esx_extraitems:removedrill')
+AddEventHandler('esx_extraitems:removedrill', function()
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
 	if Config.Removeables.Drill then
 		xPlayer.removeInventoryItem('drill', 1)
+		xPlayer.showNotification(_U('used_drill'))
 	end
-	xPlayer.showNotification(_U('used_drill'))
+end)
+
+-- Firework
+ESX.RegisterUsableItem('firework', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:firework', source)
+	if Config.Removeables.Firework then
+		xPlayer.removeInventoryItem('firework', 1)
+		xPlayer.showNotification(_U('used_firework'))
+	end
 end)
 
 -- First Aid Kit
@@ -86,6 +141,7 @@ AddEventHandler('esx_extraitems:removefirstaidkit', function()
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	if Config.Removeables.FirstAidKit then
 		xPlayer.removeInventoryItem('firstaidkit', 1)
+		xPlayer.showNotification(_U('used_firstaidkit'))
 	end
 end)
 
@@ -93,10 +149,16 @@ end)
 ESX.RegisterUsableItem('lockpick', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:lockpick', _source)
+end)
+
+RegisterNetEvent('esx_extraitems:removelockpick')
+AddEventHandler('esx_extraitems:removelockpick', function()
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
 	if Config.Removeables.LockPick then
 		xPlayer.removeInventoryItem('lockpick', 1)
+		xPlayer.showNotification(_U('used_lockpick'))
 	end
-	xPlayer.showNotification(_U('used_lockpick'))
 end)
 
 -- Oxygen Mask
@@ -105,8 +167,8 @@ ESX.RegisterUsableItem('oxygenmask', function(source)
 	TriggerClientEvent('esx_extraitems:oxygenmask', source)
 	if Config.Removeables.OxygenMask then
 		xPlayer.removeInventoryItem('oxygenmask', 1)
+		xPlayer.showNotification(_U('used_oxygenmask'))
 	end
-	xPlayer.showNotification(_U('used_oxygenmask'))
 end)
 
 -- Repair Kit
@@ -121,6 +183,7 @@ AddEventHandler('esx_extraitems:removerepairkit', function()
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	if Config.Removeables.RepairKit then
 		xPlayer.removeInventoryItem('repairkit', 1)
+		xPlayer.showNotification(_U('used_repairkit'))
 	end
 end)
 
@@ -136,6 +199,7 @@ AddEventHandler('esx_extraitems:removetirekit', function()
 	local xPlayer = ESX.GetPlayerFromId(_source)
 	if Config.Removeables.TireKit then
 		xPlayer.removeInventoryItem('tirekit', 1)
+		xPlayer.showNotification(_U('used_tirekit'))
 	end
 end)
 
@@ -143,6 +207,22 @@ end)
 ESX.RegisterUsableItem('vehgps', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:installGPS', source)
+end)
+
+-- Weapon Kit
+ESX.RegisterUsableItem('weakit', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:weakit', source)
+end)
+
+RegisterNetEvent('esx_extraitems:removeweakit')
+AddEventHandler('esx_extraitems:removeweakit', function()
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	if Config.Removeables.WeaKit then
+		xPlayer.removeInventoryItem('weakit', 1)
+		xPlayer.showNotification(_U('used_weakit'))
+	end
 end)
 
 -- Start of Ammo Boxes
@@ -202,9 +282,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxpistol', 1)
+					xPlayer.showNotification(_U('used_boxpistol'))
 				end
-
-				xPlayer.showNotification(_U('used_boxpistol'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -217,9 +296,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxsmg', 1)
+					xPlayer.showNotification(_U('used_boxsmg'))
 				end
-
-				xPlayer.showNotification(_U('used_boxsmg'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -232,9 +310,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxshot', 1)
+					xPlayer.showNotification(_U('used_boxshot'))
 				end
-
-				xPlayer.showNotification(_U('used_boxshot'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -247,9 +324,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxrifle', 1)
+					xPlayer.showNotification(_U('used_boxrifle'))
 				end
-
-				xPlayer.showNotification(_U('used_boxrifle'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -262,9 +338,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxmg', 1)
+					xPlayer.showNotification(_U('used_boxmg'))
 				end
-
-				xPlayer.showNotification(_U('used_boxmg'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -277,9 +352,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxsniper', 1)
+					xPlayer.showNotification(_U('used_boxsniper'))
 				end
-
-				xPlayer.showNotification(_U('used_boxsniper'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -292,9 +366,8 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 				if Config.Removeables.AmmoBoxes then
 					xPlayer.removeInventoryItem('boxflare', 1)
+					xPlayer.showNotification(_U('used_boxflare'))
 				end
-
-				xPlayer.showNotification(_U('used_boxflare'))
 				break
 			else
 				xPlayer.showNotification(_U('not_suitable'))
@@ -306,18 +379,16 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 
 		if Config.Removeables.AmmoBoxes then
 			xPlayer.removeInventoryItem('boxbig', 1)
+			xPlayer.showNotification(_U('used_boxbig'))
 		end
-
-		xPlayer.showNotification(_U('used_boxbig'))
 	elseif type == 'boxsmall' then
 		local weaponName = ESX.GetWeaponFromHash(hash)
 		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
 		if Config.Removeables.AmmoBoxes then
 			xPlayer.removeInventoryItem('boxsmall', 1)
+			xPlayer.showNotification(_U('used_boxsmall'))
 		end
-
-		xPlayer.showNotification(_U('used_boxsmall'))
 	end
 end)
 -- End of Ammo Boxes

@@ -43,6 +43,37 @@ AddEventHandler('esx_phone:loaded', function(phoneNumber, contacts)
 end)
 -- End of Dark Net
 
+-- Start of Bandage
+RegisterNetEvent('esx_extraitems:bandage')
+AddEventHandler('esx_extraitems:bandage', function(source)
+	local playerPed = GetPlayerPed(-1)
+	local health = GetEntityHealth(playerPed)
+	local maxHealth = GetEntityMaxHealth(playerPed)
+	local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 20)) -- 8
+
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if IsPedOnFoot(playerPed) then
+			local lib, anim = 'anim@heists@narcotics@funding@gang_idle', 'gang_chatting_idle01'
+			ESX.Streaming.RequestAnimDict(lib, function()
+				TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
+
+				Citizen.Wait(500)
+				while IsEntityPlayingAnim(playerPed, lib, anim, 3) do
+					Citizen.Wait(0)
+					DisableAllControlActions(0)
+				end
+
+				SetEntityHealth(playerPed, newHealth)
+			end)
+		else
+			ESX.ShowNotification(_U('error_no_foot'))
+		end
+	end
+end)
+-- End of Bandage
+
 -- Start of Binoculars
 local fov_max = 70.0
 local fov_min = 5.0
@@ -204,6 +235,52 @@ AddEventHandler('esx_extraitems:bulletproof', function()
 end)
 -- End of Bullet Proof Vest
 
+-- Start of Defib
+RegisterNetEvent('esx_extraitems:defib')
+AddEventHandler('esx_extraitems:defib', function(source)
+	local playerPed = GetPlayerPed(-1)
+
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if IsPedOnFoot(playerPed) then
+			local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+			if closestPlayer == -1 or closestDistance > 3.0 then
+				ESX.ShowNotification(_U('error_no_ped'))
+			else
+				local closestPlayerPed = GetPlayerPed(closestPlayer)
+				local chance = math.random(100)
+
+				if IsPedDeadOrDying(closestPlayerPed, 1) then
+					local playerPed = PlayerPedId()
+					local lib, anim = 'mini@cpr@char_a@cpr_str', 'cpr_pumpchest'
+					ESX.ShowNotification(_U('revive_inprogress'))
+
+					for i=1, 15 do
+						Citizen.Wait(900)
+
+						ESX.Streaming.RequestAnimDict(lib, function()
+							TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0.0, false, false, false)
+						end)
+					end
+
+					if chance <= 66 then
+						TriggerServerEvent('esx_ambulancejob:revive', GetPlayerServerId(closestPlayer))
+						ESX.ShowNotification(_U('defib_worked'))
+					else
+						ESX.ShowNotification(_U('defib_failed'))
+					end
+				else
+					ESX.ShowNotification(_U('player_not_unconscious'))
+				end
+			end
+		else
+			ESX.ShowNotification(_U('error_no_foot'))
+		end
+	end
+end)
+-- End of Defib
+
 -- Start of Drill
 RegisterNetEvent('esx_extraitems:drill')
 AddEventHandler('esx_extraitems:drill', function(source)
@@ -213,6 +290,7 @@ AddEventHandler('esx_extraitems:drill', function(source)
 		ESX.ShowNotification(_U('error_veh'))
 	else
 		if IsPedOnFoot(playerPed) then
+			TriggerServerEvent('esx_extraitems:removedrill')
 			TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_CONST_DRILL", 0, true)
 			Citizen.CreateThread(function()
 				Citizen.Wait(Config.Wait.Drill)
@@ -225,24 +303,84 @@ AddEventHandler('esx_extraitems:drill', function(source)
 end)
 -- End of Drill
 
+-- Start of Firework
+local box = nil
+local animlib = 'anim@mp_fireworks'
+
+RegisterNetEvent('esx_extraitems:firework')
+AddEventHandler('esx_extraitems:firework', function()
+	RequestAnimDict(animlib)
+
+	while not HasAnimDictLoaded(animlib) do
+		Citizen.Wait(10)
+	end
+
+	if not HasNamedPtfxAssetLoaded("scr_indep_fireworks") then
+		RequestNamedPtfxAsset("scr_indep_fireworks")
+
+		while not HasNamedPtfxAssetLoaded("scr_indep_fireworks") do
+			Wait(10)
+		end
+	end
+
+	local pedcoords = GetEntityCoords(GetPlayerPed(-1))
+	local ped = GetPlayerPed(-1)
+	local times = 20
+
+	TaskPlayAnim(ped, animlib, 'place_firework_3_box', -1, -8.0, 3000, 0, 0, false, false, false)
+	Citizen.Wait(4000)
+	ClearPedTasks(ped)
+
+	box = CreateObject(GetHashKey('ind_prop_firework_03'), pedcoords, true, false, false)
+	PlaceObjectOnGroundProperly(box)
+	FreezeEntityPosition(box, true)
+	local firecoords = GetEntityCoords(box)
+
+	Citizen.Wait(10000)
+	repeat
+	UseParticleFxAssetNextCall("scr_indep_fireworks")
+	local part1 = StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_trailburst", firecoords, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+	times = times - 1
+	Citizen.Wait(2000)
+	until(times == 0)
+	DeleteEntity(box)
+	box = nil
+end)
+-- End of Firework
+
 -- Start of First Aid Kit
 RegisterNetEvent('esx_extraitems:firstaidkit')
 AddEventHandler('esx_extraitems:firstaidkit', function()
 	local playerPed = GetPlayerPed(-1)
 	local health = GetEntityHealth(playerPed)
-	local max = GetEntityMaxHealth(playerPed)
+	local maxHealth = GetEntityMaxHealth(playerPed)
 
-	if health > 0 and health < max then
-		TriggerServerEvent('esx_extraitems:removefirstaidkit')
-		ESX.ShowNotification(_U('used_firstaidkit'))
+	if Config.Heal then
+		if IsPedSittingInAnyVehicle(playerPed) then
+			ESX.ShowNotification(_U('error_veh'))
+		else
+			if IsPedOnFoot(playerPed) then
+				if health > 0 and health < maxHealth then
+					local lib, anim = 'anim@heists@narcotics@funding@gang_idle', 'gang_chatting_idle01'
+					ESX.Streaming.RequestAnimDict(lib, function()
+						TaskPlayAnim(playerPed, lib, anim, 8.0, -8.0, -1, 0, 0, false, false, false)
 
-		health = health + (max / 4)
+						Citizen.Wait(500)
+						while IsEntityPlayingAnim(playerPed, lib, anim, 3) do
+							Citizen.Wait(0)
+							DisableAllControlActions(0)
+						end
 
-		if health > max then
-			health = max
+						TriggerServerEvent('esx_extraitems:removefirstaidkit')
+						SetEntityHealth(playerPed, maxHealth)
+					end)
+				end
+			else
+				ESX.ShowNotification(_U('error_no_foot'))
+			end
 		end
-
-		SetEntityHealth(playerPed, health)
+	else
+		TriggerServerEvent('esx_extraitems:givebandages')
 	end
 end)
 -- End of First Aid Kit
@@ -282,6 +420,7 @@ AddEventHandler('esx_extraitems:lockpick', function()
 					ClearPedTasksImmediately(playerPed)
 					ESX.ShowNotification(_U('veh_unlocked'))
 				else
+					TriggerServerEvent('esx_extraitems:removelockpick')
 					ESX.ShowNotification(_U('hijack_failed'))
 					ClearPedTasksImmediately(playerPed)
 				end
@@ -352,7 +491,6 @@ AddEventHandler('esx_extraitems:repairkit', function()
 				SetVehicleUndriveable(vehicle, false)
 				ClearPedTasksImmediately(playerPed)
 				TriggerServerEvent('esx_extraitems:removerepairkit')
-				ESX.ShowNotification(_U('used_repairkit'))
 				ESX.ShowNotification(_U('repair_done'))
 			end)
 		else
@@ -382,7 +520,6 @@ AddEventHandler('esx_extraitems:tirekit', function()
 					SetVehicleWheelHealth(vehicle, closestTire.tireIndex, 100)
 					ClearPedTasksImmediately(playerPed)
 					TriggerServerEvent('esx_extraitems:removetirekit')
-					ESX.ShowNotification(_U('used_tirekit'))
 					ESX.ShowNotification(_U('tire_done'))
 				end)
 			else
@@ -493,6 +630,23 @@ Citizen.CreateThread(function()
 	end
 end)
 -- End of Vehicle GPS
+
+-- Start of Weapon Kit
+RegisterNetEvent('esx_extraitems:weakit')
+AddEventHandler('esx_extraitems:weakit', function()
+	local playerPed = GetPlayerPed(-1)
+	
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if IsPedOnFoot(playerPed) then
+			TriggerEvent('esx_extraitems:OpenCompMenu')
+		else
+			ESX.ShowNotification(_U('error_veh'))
+		end
+	end
+end)
+-- End of Weapon Kit
 
 -- Start of Ammo Boxes
 RegisterNetEvent('esx_extraitems:checkammo')

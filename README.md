@@ -8,10 +8,11 @@ Extra Items for ESX V1 Final or EXM - Edited/Made by Human Tree92 ([Velociti Ent
 
 # Helpfull Info:
 * Code was pulled from various Scripts out there. Credits have been Given.
-* Has Binoculars, Bullet-Proof Vest, Dark Net, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Ammo Boxes, & Vehicle GPS.
+* Has Ammo Boxes, Bandages, Binoculars, Bullet-Proof Vest, Dark Net, Defib, Drill, First Aid Kit, Lock Pick, Oxygen Mask, Repair Kit, Tire Kit, Vehicle GPS, Weapon Kit.
 * Now using 2 Different Types of Ammo Boxes.
   * Advanced Ammo Boxes require players to purchase specific Ammo Boxes for their Guns. So if you need Pistol Ammo you must buy a Ammo Box Pistol.
   * Simple Ammo Boxes doesn't require players to purchase specific Ammo Boxes for their Guns. However there are 2 different sizes.
+* Defib & Lock Pick use a chance system. Example: If lock pick fails you lose your lock pick. 
 
 # Requirements:
 * Required:
@@ -45,11 +46,12 @@ Extra Items for ESX V1 Final or EXM - Edited/Made by Human Tree92 ([Velociti Ent
   * [eden_darknet](https://github.com/ESX-PUBLIC/eden_darknet)
 * [Clementinise](https://github.com/clementinise)
   * [esx_repairkit](https://github.com/clementinise/esx_repairkit)
+* [bzisniper](https://forum.cfx.re/u/bzisniper/summary)
+  * [Standalone Firework Box on Ground](https://forum.cfx.re/t/standalone-firework-box-on-ground/1407408)
 
 # Other Scripts:
 If you like this please check out some of my other stuff like
 * [esx_advancedbanking](https://github.com/HumanTree92/esx_advancedbanking)
-* [esx_advancedfuel](https://github.com/HumanTree92/esx_advancedfuel)
 * [esx_advancedgarage](https://github.com/HumanTree92/esx_advancedgarage)
 * [esx_advancedholdup](https://github.com/HumanTree92/esx_advancedholdup)
 * [esx_advancedhospital](https://github.com/HumanTree92/esx_advancedhospital)

@@ -1,16 +1,21 @@
 Config = {}
 Config.Locale = 'en'
 
--- Edit to your Liking | true = It will remove that item when used | false = Does opposite of true
 Config.Removeables = {
+	-- true = Removes when used | false = Does opposite of true
+	Bandage = true,
 	BulletProofVest = true,
+	Defib = false,
 	Drill = false,
+	Firework = true,
 	FirstAidKit = true,
-	LockPick = true,
 	OxygenMask = true,
 	RepairKit = true,
 	TireKit = true,
-	AmmoBoxes = true
+	WeaKit = false,
+	AmmoBoxes = true,
+	-- true = Removes if Failed | false = Doesn't remove if Failed
+	LockPick = true
 }
 
 -- Item Scenario Wait Times in MS
@@ -20,6 +25,8 @@ Config.Wait = {
 	RepairKit = 10000,
 	TireKit = 10000
 }
+
+Config.Heal = true -- true = Will allow First Aid Kits to Heal Players | false = Will give 3 Bandages
 
 -- Binoculars
 Config.BinocularsPutAway = 177 -- Backspace Key
