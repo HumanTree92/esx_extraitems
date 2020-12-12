@@ -60,9 +60,9 @@ end)
 
 RegisterServerEvent('esx_extraitems:givebandages')
 AddEventHandler('esx_extraitems:givebandages', function()
-	local xPlayer  = ESX.GetPlayerFromId(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
 	local itemName, amount = 'bandage', 3
-	if xPlayer.canCarryItem(itemName, amount)
+	if xPlayer.canCarryItem(itemName, amount) then
 		xPlayer.removeInventoryItem('firstaidkit', 1)
 		xPlayer.showNotification(_U('used_firstaidkit'))
 		xPlayer.addInventoryItem(itemName, amount)
