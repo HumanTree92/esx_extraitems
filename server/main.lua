@@ -61,11 +61,10 @@ end)
 RegisterServerEvent('esx_extraitems:givebandages')
 AddEventHandler('esx_extraitems:givebandages', function()
 	local xPlayer = ESX.GetPlayerFromId(source)
-	local itemName, amount = 'bandage', 3
-	if xPlayer.canCarryItem(itemName, amount) then
+	if xPlayer.canCarryItem('bandage', 3) then
 		xPlayer.removeInventoryItem('firstaidkit', 1)
 		xPlayer.showNotification(_U('used_firstaidkit'))
-		xPlayer.addInventoryItem(itemName, amount)
+		xPlayer.addInventoryItem('bandage', 3)
 	else
 		xPlayer.showNotification(_U('player_cannot_hold', 'Bandages'))
 	end
@@ -148,7 +147,7 @@ end)
 -- Lock Pick
 ESX.RegisterUsableItem('lockpick', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
-	TriggerClientEvent('esx_extraitems:lockpick', _source)
+	TriggerClientEvent('esx_extraitems:lockpick', source)
 end)
 
 RegisterNetEvent('esx_extraitems:removelockpick')
@@ -274,107 +273,58 @@ end)
 RegisterNetEvent('esx_extraitems:removebox')
 AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 	local xPlayer = ESX.GetPlayerFromId(source)
+	local weaponName = ESX.GetWeaponFromHash(hash)
 
 	if type == 'boxpistol' then
-		for k,v in pairs(Config.Weapons.Pistols) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxpistol', 1)
-					xPlayer.showNotification(_U('used_boxpistol'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxpistol', 1)
+			xPlayer.showNotification(_U('used_boxpistol'))
 		end
 	elseif type == 'boxsmg' then
-		for k,v in pairs(Config.Weapons.SMGs) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxsmg', 1)
-					xPlayer.showNotification(_U('used_boxsmg'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxsmg', 1)
+			xPlayer.showNotification(_U('used_boxsmg'))
 		end
 	elseif type == 'boxshot' then
-		for k,v in pairs(Config.Weapons.Shotguns) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxshot', 1)
-					xPlayer.showNotification(_U('used_boxshot'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxshot', 1)
+			xPlayer.showNotification(_U('used_boxshot'))
 		end
 	elseif type == 'boxrifle' then
-		for k,v in pairs(Config.Weapons.Rifles) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxrifle', 1)
-					xPlayer.showNotification(_U('used_boxrifle'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxrifle', 1)
+			xPlayer.showNotification(_U('used_boxrifle'))
 		end
 	elseif type == 'boxmg' then
-		for k,v in pairs(Config.Weapons.MGs) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxmg', 1)
-					xPlayer.showNotification(_U('used_boxmg'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxmg', 1)
+			xPlayer.showNotification(_U('used_boxmg'))
 		end
 	elseif type == 'boxsniper' then
-		for k,v in pairs(Config.Weapons.Snipers) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxsniper', 1)
-					xPlayer.showNotification(_U('used_boxsniper'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxsniper', 1)
+			xPlayer.showNotification(_U('used_boxsniper'))
 		end
 	elseif type == 'boxflare' then
-		for k,v in pairs(Config.Weapons.Flares) do
-			if (v.weaponHash == hash) then
-				xPlayer.addWeaponAmmo(v.weaponName, ammo)
+		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
-				if Config.Removeables.AmmoBoxes then
-					xPlayer.removeInventoryItem('boxflare', 1)
-					xPlayer.showNotification(_U('used_boxflare'))
-				end
-				break
-			else
-				xPlayer.showNotification(_U('not_suitable'))
-			end
+		if Config.Removeables.AmmoBoxes then
+			xPlayer.removeInventoryItem('boxflare', 1)
+			xPlayer.showNotification(_U('used_boxflare'))
 		end
 	elseif type == 'boxbig' then
-		local weaponName = ESX.GetWeaponFromHash(hash)
 		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
 		if Config.Removeables.AmmoBoxes then
@@ -382,7 +332,6 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 			xPlayer.showNotification(_U('used_boxbig'))
 		end
 	elseif type == 'boxsmall' then
-		local weaponName = ESX.GetWeaponFromHash(hash)
 		xPlayer.addWeaponAmmo(weaponName.name, ammo)
 
 		if Config.Removeables.AmmoBoxes then

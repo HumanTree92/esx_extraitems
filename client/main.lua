@@ -12,7 +12,7 @@ RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
 	PlayerData = xPlayer
 
-	if Config.UseVehicleGPS then
+	if Config.GPS.VehicleGPS then
 		DisplayRadar(false)
 	end
 end)
@@ -388,7 +388,8 @@ end)
 -- Start of Lock Pick
 RegisterNetEvent('esx_extraitems:lockpick')
 AddEventHandler('esx_extraitems:lockpick', function()
-	local playerPed = PlayerPedId()
+	--local playerPed = PlayerPedId()
+	local playerPed = GetPlayerPed(-1)
 	local coords = GetEntityCoords(playerPed)
 
 	if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
@@ -419,11 +420,26 @@ AddEventHandler('esx_extraitems:lockpick', function()
 					SetVehicleDoorsLockedForAllPlayers(vehicle, false)
 					ClearPedTasksImmediately(playerPed)
 					ESX.ShowNotification(_U('veh_unlocked'))
+					--SetVehicleNeedsToBeHotwired(vehicle, true)
+					--IsVehicleNeedsToBeHotwired(vehicle)
+					--TaskEnterVehicle(playerPed, vehicle, 10.0, -1, 1.0, 1, 0)
 				else
 					TriggerServerEvent('esx_extraitems:removelockpick')
 					ESX.ShowNotification(_U('hijack_failed'))
 					ClearPedTasksImmediately(playerPed)
 				end
+
+				Citizen.Wait(500)
+
+				if GetVehicleDoorLockStatus(vehicle) == 1 then
+					print('SetVehicleNeedsToBeHotwired')
+					SetVehicleNeedsToBeHotwired(vehicle, true)
+				else
+					print('IsVehicleNeedsToBeHotwired')
+					IsVehicleNeedsToBeHotwired(vehicle)
+				end
+
+				TaskEnterVehicle(playerPed, vehicle, 10.0, -1, 1.0, 1, 0)
 			end)
 		end
 	end
@@ -563,16 +579,16 @@ local ShowRadar = false
 
 RegisterNetEvent('esx_extraitems:installGPS')
 AddEventHandler('esx_extraitems:installGPS', function()
-	if Config.UseVehicleGPS then
+	if Config.GPS.VehicleGPS then
 		local playerPed = GetPlayerPed(-1)
 		local playerVeh = GetVehiclePedIsIn(playerPed, false)
 
 		if ShowRadar == false then
 			if DoesEntityExist(playerVeh) then
-				if Config.LimitedVehicles then
+				if Config.GPS.LimitedVehicles then
 					local model = GetEntityModel(playerVeh)
 
-					if IsThisModelABoat(model) or IsThisModelACar(model) or IsThisModelAHeli(model) or IsThisModelAPlane(model) or IsThisModelAnAmphibiousCar(model) then
+					if IsThisModelABoat(model) or IsThisModelACar(model) or IsThisModelAHeli(model) or IsThisModelAPlane(model) or IsThisModelAnAmphibiousCar(model) or GPSList() == true then
 						ShowRadar = true
 						ESX.ShowNotification(_U('gps_installed'))
 					else
@@ -597,16 +613,16 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
 
-		if Config.UseVehicleGPS then
+		if Config.GPS.VehicleGPS then
 			local playerPed = GetPlayerPed(-1)
 			local playerVeh = GetVehiclePedIsIn(playerPed, false)
 
 			if ShowRadar and DoesEntityExist(playerVeh) then
-				if Config.LimitedVehicles then
+				if Config.GPS.LimitedVehicles then
 					local model = GetEntityModel(playerVeh)
 
-					if IsThisModelABoat(model) or IsThisModelACar(model) or IsThisModelAHeli(model) or IsThisModelAPlane(model) or IsThisModelAnAmphibiousCar(model) then
-						if Config.OnlyFrontSeats then
+					if IsThisModelABoat(model) or IsThisModelACar(model) or IsThisModelAHeli(model) or IsThisModelAPlane(model) or IsThisModelAnAmphibiousCar(model) or GPSList() == true then
+						if Config.GPS.OnlyFrontSeats then
 							if (GetPedInVehicleSeat(playerVeh, -1) == playerPed) or (GetPedInVehicleSeat(playerVeh, 0) == playerPed) then
 								DisplayRadar(true)
 							end
@@ -615,7 +631,7 @@ Citizen.CreateThread(function()
 						end
 					end
 				else
-					if Config.OnlyFrontSeats then
+					if Config.GPS.OnlyFrontSeats then
 						if (GetPedInVehicleSeat(playerVeh, -1) == playerPed) or (GetPedInVehicleSeat(playerVeh, 0) == playerPed) then
 							DisplayRadar(true)
 						end
@@ -629,6 +645,18 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+function GPSList()
+    local playerPed = PlayerPedId()
+    local currentVehicle = GetVehiclePedIsIn(playerPed)
+
+    for i,model in pairs(Config.GPS.BikeGPS) do
+		if IsVehicleModel(currentVehicle, GetHashKey(model)) then
+			return true
+		end
+	end
+	return false
+end
 -- End of Vehicle GPS
 
 -- Start of Weapon Kit
@@ -657,7 +685,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		if type == 'boxpistol' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.Pistol
-			if hash ~= nil then
+			if isWeaponPistol(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxpistol')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -665,7 +693,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxsmg' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.SMG
-			if hash ~= nil then
+			if isWeaponSMG(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsmg')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -673,7 +701,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxshot' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.Shotgun
-			if hash ~= nil then
+			if isWeaponShotgun(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxshot')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -681,7 +709,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxrifle' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.Rifle
-			if hash ~= nil then
+			if isWeaponRifle(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxrifle')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -689,7 +717,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxmg' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.MG
-			if hash ~= nil then
+			if isWeaponMG(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxmg')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -697,7 +725,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxsniper' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.Sniper
-			if hash ~= nil then
+			if isWeaponSniper(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsniper')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -705,7 +733,7 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 		elseif type == 'boxflare' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.Flare
-			if hash ~= nil then
+			if isWeaponFlare(hash) then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxflare')
 			else
 				ESX.ShowNotification(_U('not_suitable'))
@@ -715,20 +743,79 @@ AddEventHandler('esx_extraitems:checkammo', function(type)
 			ammo = Config.AmmoBoxes.BoxBig
 			if hash ~= nil then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxbig')
-			else
-				ESX.ShowNotification(_U('not_suitable'))
 			end
 		elseif type == 'boxsmall' then
 			hash = GetSelectedPedWeapon(playerPed)
 			ammo = Config.AmmoBoxes.BoxSmall
 			if hash ~= nil then
 				TriggerServerEvent('esx_extraitems:removebox', hash, ammo, 'boxsmall')
-			else
-				ESX.ShowNotification(_U('not_suitable'))
 			end
 		end
 	else
 		ESX.ShowNotification(_U('no_weapon'))
 	end
 end)
+
+function isWeaponPistol(model)
+	for _, weaponPistol in pairs(Config.WeaponList.Pistols) do
+		if model == GetHashKey(weaponPistol) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponSMG(model)
+	for _, weaponSMG in pairs(Config.WeaponList.SMGs) do
+		if model == GetHashKey(weaponSMG) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponShotgun(model)
+	for _, weaponShotgun in pairs(Config.WeaponList.Shotguns) do
+		if model == GetHashKey(weaponShotgun) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponRifle(model)
+	for _, weaponRifle in pairs(Config.WeaponList.Rifles) do
+		if model == GetHashKey(weaponRifle) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponMG(model)
+	for _, weaponMG in pairs(Config.WeaponList.MGs) do
+		if model == GetHashKey(weaponMG) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponSniper(model)
+	for _, weaponSniper in pairs(Config.WeaponList.Snipers) do
+		if model == GetHashKey(weaponSniper) then
+			return true
+		end
+	end
+	return false
+end
+
+function isWeaponFlare(model)
+	for _, weaponFlare in pairs(Config.WeaponList.Flares) do
+		if model == GetHashKey(weaponFlare) then
+			return true
+		end
+	end
+	return false
+end
 -- End of Ammo Boxes
