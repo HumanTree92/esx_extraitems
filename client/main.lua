@@ -49,7 +49,7 @@ AddEventHandler('esx_extraitems:bandage', function(source)
 	local playerPed = GetPlayerPed(-1)
 	local health = GetEntityHealth(playerPed)
 	local maxHealth = GetEntityMaxHealth(playerPed)
-	local newHealth = math.min(maxHealth, math.floor(health + maxHealth / 20)) -- 8
+	local newHealth = math.floor(health + Config.BandageHP)
 
 	if IsPedSittingInAnyVehicle(playerPed) then
 		ESX.ShowNotification(_U('error_veh'))
@@ -93,17 +93,17 @@ Citizen.CreateThread(function()
 			binoculars = true
 			if not (IsPedSittingInAnyVehicle(playerPed)) then
 				Citizen.CreateThread(function()
-					TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
-					PlayAmbientSpeech1(GetPlayerPed(-1), "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
+					TaskStartScenarioInPlace(GetPlayerPed(-1), 'WORLD_HUMAN_BINOCULARS', 0, 1)
+					PlayAmbientSpeech1(GetPlayerPed(-1), 'GENERIC_CURSE_MED', 'SPEECH_PARAMS_FORCE')
 				end)
 			end
 
 			Wait(2000)
 
-			SetTimecycleModifier("default")
+			SetTimecycleModifier('default')
 			SetTimecycleModifierStrength(0.3)
 
-			local scaleform = RequestScaleformMovie("BINOCULARS")
+			local scaleform = RequestScaleformMovie('BINOCULARS')
 
 			while not HasScaleformMovieLoaded(scaleform) do
 				Citizen.Wait(10)
@@ -111,19 +111,19 @@ Citizen.CreateThread(function()
 
 			local playerPed = GetPlayerPed(-1)
 			local vehicle = GetVehiclePedIsIn(playerPed)
-			local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
+			local cam = CreateCam('DEFAULT_SCRIPTED_FLY_CAMERA', true)
 
 			AttachCamToEntity(cam, playerPed, 0.0,0.0,1.0, true)
 			SetCamRot(cam, 0.0,0.0,GetEntityHeading(playerPed))
 			SetCamFov(cam, fov)
 			RenderScriptCams(true, false, 0, 1, 0)
-			PushScaleformMovieFunction(scaleform, "SET_CAM_LOGO")
+			PushScaleformMovieFunction(scaleform, 'SET_CAM_LOGO')
 			PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
 			PopScaleformMovieFunctionVoid()
 
 			while binoculars and not IsEntityDead(playerPed) and (GetVehiclePedIsIn(playerPed) == vehicle) and true do
 				if IsControlJustPressed(0, Config.BinocularsPutAway) then -- Toggle binoculars
-					PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
+					PlaySoundFrontend(-1, 'SELECT', 'HUD_FRONTEND_DEFAULT_SOUNDSET', false)
 					ClearPedTasks(GetPlayerPed(-1))
 					binoculars = false
 				end
@@ -235,6 +235,33 @@ AddEventHandler('esx_extraitems:bulletproof', function()
 end)
 -- End of Bullet Proof Vest
 
+-- Start of Clean Kit
+RegisterNetEvent('esx_extraitems:cleankit')
+AddEventHandler('esx_extraitems:cleankit', function()
+	local playerPed = GetPlayerPed(-1)
+	local coords = GetEntityCoords(playerPed)
+	local vehicle = ESX.Game.GetVehicleInDirection()
+	
+	if IsPedSittingInAnyVehicle(playerPed) then
+		ESX.ShowNotification(_U('error_veh'))
+	else
+		if DoesEntityExist(vehicle) and IsPedOnFoot(playerPed) then
+			TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
+			Citizen.CreateThread(function()
+				Citizen.Wait(Config.Wait.CleanKit)
+				WashDecalsFromVehicle(vehicle, playerPed, 1.0)
+				SetVehicleDirtLevel(vehicle, 0.1)
+				ClearPedTasksImmediately(playerPed)
+				TriggerServerEvent('esx_extraitems:removecleankit')
+				ESX.ShowNotification(_U('clean_done'))
+			end)
+		else
+			ESX.ShowNotification(_U('error_no_veh'))
+		end
+	end
+end)
+-- End of Clean Kit
+
 -- Start of Defib
 RegisterNetEvent('esx_extraitems:defib')
 AddEventHandler('esx_extraitems:defib', function(source)
@@ -291,7 +318,7 @@ AddEventHandler('esx_extraitems:drill', function(source)
 	else
 		if IsPedOnFoot(playerPed) then
 			TriggerServerEvent('esx_extraitems:removedrill')
-			TaskStartScenarioInPlace(playerPed, "WORLD_HUMAN_CONST_DRILL", 0, true)
+			TaskStartScenarioInPlace(playerPed, 'WORLD_HUMAN_CONST_DRILL', 0, true)
 			Citizen.CreateThread(function()
 				Citizen.Wait(Config.Wait.Drill)
 				ClearPedTasksImmediately(playerPed)
@@ -315,10 +342,10 @@ AddEventHandler('esx_extraitems:firework', function()
 		Citizen.Wait(10)
 	end
 
-	if not HasNamedPtfxAssetLoaded("scr_indep_fireworks") then
-		RequestNamedPtfxAsset("scr_indep_fireworks")
+	if not HasNamedPtfxAssetLoaded('scr_indep_fireworks') then
+		RequestNamedPtfxAsset('scr_indep_fireworks')
 
-		while not HasNamedPtfxAssetLoaded("scr_indep_fireworks") do
+		while not HasNamedPtfxAssetLoaded('scr_indep_fireworks') do
 			Wait(10)
 		end
 	end
@@ -338,8 +365,8 @@ AddEventHandler('esx_extraitems:firework', function()
 
 	Citizen.Wait(10000)
 	repeat
-	UseParticleFxAssetNextCall("scr_indep_fireworks")
-	local part1 = StartNetworkedParticleFxNonLoopedAtCoord("scr_indep_firework_trailburst", firecoords, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
+	UseParticleFxAssetNextCall('scr_indep_fireworks')
+	local part1 = StartNetworkedParticleFxNonLoopedAtCoord('scr_indep_firework_trailburst', firecoords, 0.0, 0.0, 0.0, 1.0, false, false, false, false)
 	times = times - 1
 	Citizen.Wait(2000)
 	until(times == 0)
@@ -402,7 +429,7 @@ AddEventHandler('esx_extraitems:lockpick', function()
 		end
 
 		local chance = math.random(100)
-		local alarm  = math.random(100)
+		local alarm = math.random(100)
 
 		if DoesEntityExist(vehicle) then
 			if alarm <= 33 then
@@ -499,7 +526,7 @@ AddEventHandler('esx_extraitems:repairkit', function()
 		ESX.ShowNotification(_U('error_veh'))
 	else
 		if DoesEntityExist(vehicle) and IsPedOnFoot(playerPed) then
-			TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_BUM_BIN", 0, true)
+			TaskStartScenarioInPlace(playerPed, 'PROP_HUMAN_BUM_BIN', 0, true)
 			Citizen.CreateThread(function()
 				Citizen.Wait(Config.Wait.RepairKit)
 				SetVehicleFixed(vehicle)
@@ -529,7 +556,7 @@ AddEventHandler('esx_extraitems:tirekit', function()
 	else
 		if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 5.0) then
 			if DoesEntityExist(vehicle) and IsPedOnFoot(playerPed) and closestTire ~= nil then
-				TaskStartScenarioInPlace(playerPed, "CODE_HUMAN_MEDIC_KNEEL", 0, true)
+				TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_KNEEL', 0, true)
 				Citizen.CreateThread(function()
 					Citizen.Wait(Config.Wait.TireKit)
 					SetVehicleTyreFixed(vehicle, closestTire.tireIndex)
@@ -548,8 +575,8 @@ AddEventHandler('esx_extraitems:tirekit', function()
 end)
 
 function GetClosestVehicleTire(vehicle)
-	local tireBones = {"wheel_lf", "wheel_rf", "wheel_lm1", "wheel_rm1", "wheel_lm2", "wheel_rm2", "wheel_lm3", "wheel_rm3", "wheel_lr", "wheel_rr"}
-	local tireIndex = {["wheel_lf"] = 0, ["wheel_rf"] = 1, ["wheel_lm1"] = 2, ["wheel_rm1"] = 3, ["wheel_lm2"] = 45,["wheel_rm2"] = 47, ["wheel_lm3"] = 46, ["wheel_rm3"] = 48, ["wheel_lr"] = 4, ["wheel_rr"] = 5,}
+	local tireBones = {'wheel_lf', 'wheel_rf', 'wheel_lm1', 'wheel_rm1', 'wheel_lm2', 'wheel_rm2', 'wheel_lm3', 'wheel_rm3', 'wheel_lr', 'wheel_rr'}
+	local tireIndex = {['wheel_lf'] = 0, ['wheel_rf'] = 1, ['wheel_lm1'] = 2, ['wheel_rm1'] = 3, ['wheel_lm2'] = 45,['wheel_rm2'] = 47, ['wheel_lm3'] = 46, ['wheel_rm3'] = 48, ['wheel_lr'] = 4, ['wheel_rr'] = 5}
 	local playerPed = GetPlayerPed(-1)
 	local playerPos = GetEntityCoords(playerPed, false)
 	local minDistance = 1.0
@@ -573,6 +600,103 @@ function GetClosestVehicleTire(vehicle)
 	return closestTire
 end
 -- End of Tire Kit
+
+-- Start of Vape
+RegisterNetEvent('esx_extraitems:vape')
+AddEventHandler('esx_extraitems:vape', function()
+	local playerPed = GetPlayerPed(-1)
+	local coords = GetEntityCoords(playerPed)
+	local health = GetEntityHealth(playerPed)
+	local maxHealth = GetEntityMaxHealth(playerPed)
+	local newHealth = math.floor(health + Config.Vape.HealAmt)
+
+	if IsPedOnFoot(PlayerPedId()) then
+		while (not HasAnimDictLoaded('anim@heists@humane_labs@finale@keycards')) do
+			RequestAnimDict('anim@heists@humane_labs@finale@keycards')
+			Wait(1)
+		end
+		TaskPlayAnim(playerPed, 'anim@heists@humane_labs@finale@keycards', 'ped_a_enter_loop', 8.00, -8.00, -1, (2 + 16 + 32), 0.00, 0, 0, 0)
+
+		local x,y,z = table.unpack(GetEntityCoords(playerPed))
+		VapeMod = CreateObject(GetHashKey('ba_prop_battle_vape_01'), x, y, z+0.2,  true,  true, true)
+		AttachEntityToEntity(VapeMod, playerPed, GetPedBoneIndex(playerPed, 18905), 0.08, -0.00, 0.03, -150.0, 90.0, -10.0, true, true, false, true, 1, true)
+
+		while (not HasAnimDictLoaded('mp_player_inteat@burger')) do
+			RequestAnimDict('mp_player_inteat@burger')
+			Wait(1)
+		end
+
+		local chance = math.random(1, Config.Vape.FailurePerc)
+
+		if chance == 1 then
+			TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger', 8.00, -8.00, -1, (2 + 16 + 32), 0.00, 0, 0, 0)
+			PlaySoundFrontend(-1, 'Beep_Red', 'DLC_HEIST_HACKING_SNAKE_SOUNDS', 1)
+			Wait(250)
+			AddExplosion(coords.x, coords.y, coords.z+1.00, 34, 0.00, true, false, 1.00)
+			ApplyDamageToPed(playerPed, 200, false)
+
+			DeleteObject(VapeMod)
+			ClearPedTasksImmediately(playerPed)
+			ClearPedSecondaryTask(playerPed)
+		else
+			TaskPlayAnim(playerPed, 'mp_player_inteat@burger', 'mp_player_int_eat_burger', 8.00, -8.00, -1, (2 + 16 + 32), 0.00, 0, 0, 0)
+			PlaySoundFrontend(-1, 'Beep_Red', 'DLC_HEIST_HACKING_SNAKE_SOUNDS', 1)
+			Wait(950)
+			TriggerServerEvent('esx_extraitems:VapeSmoke', PedToNet(playerPed))
+			SetEntityHealth(playerPed, newHealth)
+			Wait(Config.Vape.Cooldown-1000)
+			TriggerEvent('esx_extraitems:VapeAnim', 0)
+
+			DeleteObject(VapeMod)
+			ClearPedTasksImmediately(playerPed)
+			ClearPedSecondaryTask(playerPed)
+		end
+	else
+		ESX.ShowNotification(_U('error_veh'))
+	end
+end)
+
+RegisterNetEvent('esx_extraitems:VapeAnim')
+AddEventHandler('esx_extraitems:VapeAnim', function(source)
+	local ped = GetPlayerPed(-1)
+	while (not HasAnimDictLoaded('anim@heists@humane_labs@finale@keycards')) do
+		RequestAnimDict('anim@heists@humane_labs@finale@keycards')
+		Wait(1)
+	end
+	TaskPlayAnim(ped, 'anim@heists@humane_labs@finale@keycards', 'ped_a_enter_loop', 8.00, -8.00, -1, (2 + 16 + 32), 0.00, 0, 0, 0)
+end)
+
+p_smoke_location = {20279}
+RegisterNetEvent('esx_extraitems:VapeSmoke')
+AddEventHandler('esx_extraitems:VapeSmoke', function(c_ped)
+	for _,bones in pairs(p_smoke_location) do
+		if DoesEntityExist(NetToPed(c_ped)) and not IsEntityDead(NetToPed(c_ped)) then
+			createdSmoke = UseParticleFxAssetNextCall('core')
+			createdPart = StartParticleFxLoopedOnEntityBone('exp_grd_bzgas_smoke', NetToPed(c_ped), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, GetPedBoneIndex(NetToPed(c_ped), bones), Config.Vape.SmokeSize, 0.0, 0.0, 0.0)
+			Wait(Config.Vape.SmokeTime)
+			while DoesParticleFxLoopedExist(createdSmoke) do
+				StopParticleFxLooped(createdSmoke, 1)
+				Wait(0)
+			end
+			while DoesParticleFxLoopedExist(createdPart) do
+				StopParticleFxLooped(createdPart, 1)
+				Wait(0)
+			end
+			while DoesParticleFxLoopedExist('exp_grd_bzgas_smoke') do
+				StopParticleFxLooped('exp_grd_bzgas_smoke', 1)
+				Wait(0)
+			end
+			while DoesParticleFxLoopedExist('core') do
+				StopParticleFxLooped('core', 1)
+				Wait(0)
+			end
+			Wait(Config.Vape.SmokeTime*3)
+			RemoveParticleFxFromEntity(NetToPed(c_ped))
+			break
+		end
+	end
+end)
+-- End of Vape
 
 -- Start of Vehicle GPS
 local ShowRadar = false

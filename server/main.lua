@@ -24,8 +24,8 @@ end
 RegisterServerEvent('esx_phone:reload')
 AddEventHandler('esx_phone:reload', function(phoneNumber)
 --AddEventHandler('esx:playerLoaded', function(source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
-	local darknet  = xPlayer.getInventoryItem('darknet')
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local darknet = xPlayer.getInventoryItem('darknet')
 	if darknet.count > 0 then
 		TriggerEvent('esx_phone:addSource', 'darknet', source)
 	end
@@ -83,6 +83,22 @@ ESX.RegisterUsableItem('bulletproof', function(source)
 	if Config.Removeables.BulletProofVest then
 		xPlayer.removeInventoryItem('bulletproof', 1)
 		xPlayer.showNotification(_U('used_bulletproof'))
+	end
+end)
+
+-- Clean Kit
+ESX.RegisterUsableItem('cleankit', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:cleankit', source)
+end)
+
+RegisterNetEvent('esx_extraitems:removecleankit')
+AddEventHandler('esx_extraitems:removecleankit', function()
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	if Config.Removeables.CleanKit then
+		xPlayer.removeInventoryItem('cleankit', 1)
+		xPlayer.showNotification(_U('used_cleankit'))
 	end
 end)
 
@@ -162,7 +178,7 @@ end)
 
 -- Oxygen Mask
 ESX.RegisterUsableItem('oxygenmask', function(source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:oxygenmask', source)
 	if Config.Removeables.OxygenMask then
 		xPlayer.removeInventoryItem('oxygenmask', 1)
@@ -172,7 +188,7 @@ end)
 
 -- Repair Kit
 ESX.RegisterUsableItem('repairkit', function(source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:repairkit', source)
 end)
 
@@ -188,7 +204,7 @@ end)
 
 -- Tire Kit
 ESX.RegisterUsableItem('tirekit', function(source)
-	local xPlayer  = ESX.GetPlayerFromId(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
 	TriggerClientEvent('esx_extraitems:tirekit', source)
 end)
 
@@ -200,6 +216,17 @@ AddEventHandler('esx_extraitems:removetirekit', function()
 		xPlayer.removeInventoryItem('tirekit', 1)
 		xPlayer.showNotification(_U('used_tirekit'))
 	end
+end)
+
+-- Vape
+ESX.RegisterUsableItem('vape', function(source)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	TriggerClientEvent('esx_extraitems:vape', source)
+end)
+
+RegisterServerEvent('esx_extraitems:VapeSmoke')
+AddEventHandler('esx_extraitems:VapeSmoke', function(entity)
+	TriggerClientEvent('esx_extraitems:VapeSmoke', -1, entity)
 end)
 
 -- Vehicle GPS
@@ -341,3 +368,61 @@ AddEventHandler('esx_extraitems:removebox', function(hash, ammo, type)
 	end
 end)
 -- End of Ammo Boxes
+
+-- Start of Weapon Components
+ESX.RegisterServerCallback('esx_extraitems:AddWeaponComponent', function(source, cb, weaponCat, weaponName, componentNum)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local authorizedWeapons, selectedWeapon = weaponCat
+
+	for k,v in ipairs(authorizedWeapons) do
+		if v.weapon == weaponName then
+			selectedWeapon = v
+			break
+		end
+	end
+	
+	if not selectedWeapon then
+		print(('esx_extraitems: %s attempted to Install an invalid weapon component 1.'):format(xPlayer.identifier))
+		cb(false)
+	else
+		local weaponNum, weapon = ESX.GetWeapon(weaponName)
+		local component = weapon.components[componentNum]
+
+		if component then
+			xPlayer.addWeaponComponent(weaponName, component.name)
+			cb(true)
+		else
+			print(('esx_extraitems: %s attempted to Install an invalid weapon component 2.'):format(xPlayer.identifier))
+			cb(false)
+		end
+	end
+end)
+
+ESX.RegisterServerCallback('esx_extraitems:RemoveWeaponComponent', function(source, cb, weaponCat, weaponName, componentNum)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local authorizedWeapons, selectedWeapon = weaponCat
+
+	for k,v in ipairs(authorizedWeapons) do
+		if v.weapon == weaponName then
+			selectedWeapon = v
+			break
+		end
+	end
+	
+	if not selectedWeapon then
+		print(('esx_extraitems: %s attempted to Uninstall an invalid weapon component 1.'):format(xPlayer.identifier))
+		cb(false)
+	else
+		local weaponNum, weapon = ESX.GetWeapon(weaponName)
+		local component = weapon.components[componentNum]
+
+		if component then
+			xPlayer.removeWeaponComponent(weaponName, component.name)
+			cb(true)
+		else
+			print(('esx_extraitems: %s attempted to Uninstall an invalid weapon component 2.'):format(xPlayer.identifier))
+			cb(false)
+		end
+	end
+end)
+-- End of Weapon Components

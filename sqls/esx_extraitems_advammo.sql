@@ -12,6 +12,7 @@ INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 	('boxsniper', 'Ammo Box Sniper', 1, 0, 1),
 	('boxflare', 'Ammo Box Flare', 1, 0, 1),
 	('bulletproof', 'Bullet-Proof Vest', 1, 0, 1),
+	('cleankit', 'Cleaning Kit', 1, 0, 1),
 	('defib', 'Defib', 1, 0, 1),
 	('drill', 'Drill', 1, 0, 1),
 	('firework', 'Firework', 1, 0, 1),
@@ -22,6 +23,7 @@ INSERT INTO `items` (`name`, `label`, `weight`, `rare`, `can_remove`) VALUES
 	('oxygenmask', 'Oxygen Mask', 1, 0, 1),
 	('repairkit', 'Repair Kit', 1, 0, 1),
 	('tirekit', 'Tire Kit', 1, 0, 1),
+	('vape', 'Vape', 1, 0, 1),
 	('vehgps', 'Vehicle GPS', 1, 0, 1),
 	('weakit', 'Weapon Kit', 1, 0, 1)
 ;
@@ -38,6 +40,7 @@ INSERT INTO `shops` (store, item, price) VALUES
 	('ExtraItemsShop', 'boxsniper', 21),
 	('ExtraItemsShop', 'boxflare', 10),
 	('ExtraItemsShop', 'bulletproof', 300),
+	('ExtraItemsShop', 'cleankit', 5),
 	('ExtraItemsShop', 'defib', 1200),
 	('ExtraItemsShop', 'drill', 180),
 	('ExtraItemsShop', 'firework', 15),
@@ -48,6 +51,7 @@ INSERT INTO `shops` (store, item, price) VALUES
 	('ExtraItemsShop', 'oxygenmask', 400),
 	('ExtraItemsShop', 'repairkit', 150),
 	('ExtraItemsShop', 'tirekit', 25),
+	('ExtraItemsShop', 'vape', 50),
 	('ExtraItemsShop', 'vehgps', 25),
 	('ExtraItemsShop', 'weakit', 75)
 ;
