@@ -6,7 +6,9 @@ description 'ESX Extra Items'
 
 Author 'Human Tree92 | Velociti Entertainment'
 
-version '1.0.0'
+version 'legacy'
+
+shared_script '@es_extended/imports.lua'
 
 client_scripts {
 	'@es_extended/locale.lua',

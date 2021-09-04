@@ -1,7 +1,3 @@
-ESX = nil
-
-TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-
 -- Start of Dark Net
 TriggerEvent('esx_phone:registerNumber', 'darknet', _U('phone_darknet'), true, false, true, true)
 
@@ -23,7 +19,6 @@ end
 
 RegisterServerEvent('esx_phone:reload')
 AddEventHandler('esx_phone:reload', function(phoneNumber)
---AddEventHandler('esx:playerLoaded', function(source)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	local darknet = xPlayer.getInventoryItem('darknet')
 	if darknet.count > 0 then
