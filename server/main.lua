@@ -421,3 +421,16 @@ ESX.RegisterServerCallback('esx_extraitems:RemoveWeaponComponent', function(sour
 	end
 end)
 -- End of Weapon Components
+
+-- Check if Player has Item
+ESX.RegisterServerCallback('esx_extraitems:getItemAmount', function(source, cb, item)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local qtty = xPlayer.getInventoryItem(item).count
+	cb(qtty)
+end)
+
+function getItemAmount(item)
+	local xPlayer = ESX.GetPlayerFromId(source)
+	local qtty = xPlayer.getInventoryItem(item).count
+	return qtty
+end
