@@ -449,10 +449,8 @@ AddEventHandler('esx_extraitems:lockpick', function()
 				Citizen.Wait(500)
 
 				if GetVehicleDoorLockStatus(vehicle) == 1 then
-					print('SetVehicleNeedsToBeHotwired')
 					SetVehicleNeedsToBeHotwired(vehicle, true)
 				else
-					print('IsVehicleNeedsToBeHotwired')
 					IsVehicleNeedsToBeHotwired(vehicle)
 				end
 

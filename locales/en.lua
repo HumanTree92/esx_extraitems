@@ -56,6 +56,7 @@ Locales ['en'] = {
 	['error_no_ped'] = '~r~There is no Player Nearby.',
 	['not_correct_wea'] = '~r~You don\'t have the correct weapon out.',
 	['player_cannot_hold'] = '~r~You can\'t hold anymore %s.',
+	['player_no'] = '~r~You don\'t have any %s.',
 	-- Component Menu
 	['comp_menu'] = 'Weapon Component Menu',
 	['comp_menu_list1'] = 'Weapons that can be Modified',
